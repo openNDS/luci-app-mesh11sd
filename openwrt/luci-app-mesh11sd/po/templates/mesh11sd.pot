@@ -1,0 +1,1193 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8"
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:539
+msgid "\"mesh11sd connect\" without a node ID also lists island meshes."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:204
+msgid "%s (this node)"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:95
+msgid "%s seconds"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:429
+msgid "0 - all off"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:341
+msgid "0 - always a routed portal (MRP)"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:295
+msgid "0 - none (OWE transition)"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:324
+msgid "0 - off"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:356
+msgid "0 - silent"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:441
+msgid "0 and 4 need a full wpad."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:419
+msgid "0 for fixed nodes, up to 6 for nodes that move."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:323
+msgid ""
+"0 off; 1 on, the portal configuration is committed and LuCI can be used; 2 "
+"on, everything is committed and the first role is kept."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:535
+msgid "0 to 2 quiet, 3 info, 4 and 5 debug."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:296
+msgid "1 - SAE (WPA3)"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:429
+msgid "1 - all on"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:340
+msgid "1 - auto: portal with a wan link, otherwise peer"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:356
+msgid "1 - notice"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:324
+msgid "1 - on"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:297
+msgid "2 - SAE mixed (WPA2/WPA3)"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:356
+msgid "2 - info"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:324
+msgid "2 - on, commit all"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:429
+msgid "2 - only on radios without a mesh interface"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:380
+msgid "2.4 GHz"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:382
+msgid "2.4 GHz channel width"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:383
+msgid "20 MHz"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:298
+msgid "3 - PSK2 (WPA2)"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:342
+msgid "3 - customer premises equipment (CPE)"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:356
+msgid "3 - debug"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:299
+msgid "4 - OWE"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:343
+msgid "4 - bridged portal (MBP)"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:383
+msgid "40 MHz"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:344
+msgid "5 - trunk peer (TPE)"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:380
+msgid "5 GHz"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:380
+msgid "6 GHz"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:380
+msgid "60 GHz"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:493
+msgid "8/3 of the check interval"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:463
+msgid ""
+"A dotted netmask or prefix length, default 255.255.255.0. Used only on a "
+"portal or a trunk bridged portal (MBP); peers and CPEs bridge the tunnel "
+"without an address."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:450
+msgid ""
+"A point to multipoint vxlan tunnel with its own SSID, for example for "
+"guests. Needs ip-full and vxlan."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:423
+msgid ""
+"A portal must be better than the current one by this airtime metric to be "
+"chosen. Default 50."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:200
+msgid ""
+"A reboot undoes the test. If the node works as expected, set Auto config to "
+"1 to keep the configuration."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:427
+msgid "Access points"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:57
+msgid "Active portal"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:315
+msgid "Advanced"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:75
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:192
+msgid "Airtime metric"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:155
+msgid "All setup values"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:400
+msgid "Allow more than one mesh interface."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:438
+msgid "Append the last 4 hex digits of the mesh MAC address to the SSID."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:29
+msgid "Applied on Save & Apply."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:283
+msgid ""
+"Ask mesh11sd to read its settings again at the start of its next loop, "
+"without a restart."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/common.js:60
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:322
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:41
+msgid "Auto config"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:109
+msgid "Auto config is on, so there is nothing to test."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/common.js:68
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:346
+msgid "CPE mode"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:347
+msgid "CPE only: how the LAN gets its IPv6 addresses."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:140
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:179
+msgid "Cancel"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:55
+msgid "Channel"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:492
+msgid "Channel tracking interval"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:358
+msgid "Check interval"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:162
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:202
+msgid "Close"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/common.js:62
+msgid "Commit all"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:85
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:95
+msgid "Confidence test"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:198
+msgid "Confidence test started"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:538
+msgid "Connect lists all nodes"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:79
+msgid "Connected"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:288
+msgid "Could not ask mesh11sd to reload: %s"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/log.js:25
+msgid "Could not read the mesh11sd log. Is mesh11sd installed?"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:242
+msgid ""
+"Could not read the mesh11sd status. Is mesh11sd 8 installed and running?"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:156
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:167
+msgid "Could not reboot: %s"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:207
+msgid "Could not start the confidence test: %s"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:351
+msgid "Country"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:47
+msgid "Current loop interval"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:22
+msgid "Customer premises equipment"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:528
+msgid "DTIM period"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:354
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:48
+msgid "Debug level"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:520
+msgid ""
+"Debugging only: writes /mesh11sd_log/mesh11sd.log on flash, which wears it."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:525
+msgid "Default beacon interval"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:192
+msgid "Destination"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:249
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:401
+msgid "Disabled"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:249
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:319
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:401
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:40
+msgid "Enabled"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:440
+msgid "Encryption"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/common.js:69
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:484
+msgid "Ethernet on tunnel"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:377
+msgid "Extra seed for the mesh SAE key. If set, the same on every node."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:193
+msgid "Flags"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/log.js:67
+#: htdocs/luci-static/resources/view/mesh11sd/log.js:70
+msgid "Follow"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:444
+msgid "For encryption 1, 2 and 3."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:472
+msgid "For encryption 1, 2 and 3; at least 8 characters."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:397
+msgid "Forces the mesh onto phyN. Normally empty: mesh11sd picks the radio."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:61
+msgid "Forwarding"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:314
+msgid "Gate and SSID"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:507
+msgid "Gateway proxy ARP"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:312
+msgid "General"
+msgstr ""
+
+#: root/usr/share/rpcd/acl.d/luci-app-mesh11sd.json:3
+msgid "Grant access to mesh11sd status, settings and log"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:62
+msgid "HWMP root mode"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:374
+msgid ""
+"Hashed to the mesh ID. The same on every node. Default --__, the built-in "
+"seed."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:192
+msgid "Hops"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:362
+msgid ""
+"If openNDS is installed: start it on a portal or CPE, stop it on a peer."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:78
+msgid "Inactive"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:498
+msgid "Interface timeout"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:481
+msgid "Isolate tunnel"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:434
+msgid "Keep system SSIDs"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:502
+msgid ""
+"Keep the IPv4 address in the network config instead of one derived from the "
+"mesh ID (on a CPE, from its label MAC)."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:443
+msgid "Key"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:39
+msgid "Label MAC"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:511
+msgid ""
+"Leave swconfig bridge and port MAC addresses unchanged. No effect with DSA."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:526
+msgid ""
+"Leave the beacon interval at the driver default. Off sets it from the "
+"mobility level, except on drivers that need 100 ms."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:369
+msgid "Lines kept in the mesh11sd log. Default 500."
+msgstr ""
+
+#: root/usr/share/luci/menu.d/luci-app-mesh11sd.json:35
+msgid "Log"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:364
+msgid "Log mountpoint"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:489
+msgid "Loop interval delta"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:504
+msgid "MAC forced forwarding"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:361
+msgid "Manage openNDS"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:368
+msgid "Maximum log entries"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:53
+msgid "Mesh ID"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:373
+msgid "Mesh ID seed"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:313
+msgid "Mesh backhaul"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/common.js:65
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:522
+msgid "Mesh backhaul LED"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:379
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:44
+msgid "Mesh band"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:23
+msgid "Mesh bridged portal"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:43
+msgid "Mesh gate (access points)"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:222
+msgid "Mesh interface %s"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:403
+msgid "Mesh interface base name"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:376
+msgid "Mesh key seed"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:406
+msgid "Mesh network"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:412
+msgid "Mesh path cost"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:59
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:226
+msgid "Mesh paths"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:21
+msgid "Mesh peer"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:396
+msgid "Mesh radio index"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:20
+msgid "Mesh routed portal"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:305
+#: root/usr/share/luci/menu.d/luci-app-mesh11sd.json:3
+msgid "Mesh11sd"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/log.js:73
+msgid "Mesh11sd Log"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:278
+msgid "Mesh11sd Status"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:493
+msgid ""
+"Minimum seconds between peer channel scans. Default 8/3 of the check "
+"interval."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:485
+msgid "Move the lan ethernet ports onto the tunnel bridge. Not used on CPE."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/common.js:66
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:399
+msgid "Multiple mesh interfaces"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:285
+msgid "Must be an absolute path"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:348
+msgid "NAT66"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:192
+msgid "Next hop"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:415
+msgid "No forwarding"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:482
+msgid "No forwarding between the mesh or lan and the tunnel."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:250
+msgid "No mesh interface is up."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:193
+msgid "No mesh paths."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:179
+msgid "No peers."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:209
+msgid "No stations."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:164
+msgid "Node"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:418
+msgid "Node mobility level"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:38
+msgid "Node type"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:97
+msgid "Not available: mesh11sd does not answer."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:103
+msgid "Not available: mesh11sd is not running."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:355
+msgid ""
+"Notices, warnings and errors also go to the system log; info and debug go to "
+"the mesh11sd log only."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:529
+msgid ""
+"Overridden by the mobility level unless the driver ignores it. Default 2."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:193
+msgid "Path metric"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:71
+msgid "Peer"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:72
+msgid "Peer link"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:64
+msgid "Peer link timeout"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:224
+msgid "Peers"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:496
+msgid ""
+"Peers and CPEs: check intervals without a portal before the watchdog acts. "
+"It then restarts the network and, if the portal is still missing, reboots or "
+"stops as set in Reboot on error or Stop on error below. 0 turns the watchdog "
+"off. Default 5."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:416
+msgid ""
+"Peers only: serve this node's own access points but do not forward for other "
+"nodes."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:58
+msgid "Portal address"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:457
+msgid "Portal and MBP only. Empty: use the address derived from the mesh key."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:385
+msgid "Portal channel"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/common.js:61
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:338
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:42
+msgid "Portal detect"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:495
+msgid "Portal detect threshold"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:501
+msgid "Portal keeps its IPv4 address"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:422
+msgid "Portal metric threshold"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:386
+msgid ""
+"Portal, 2.4 GHz only: auto, default (the channel in the wireless config) or "
+"a channel number. Peers follow the portal."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:348
+msgid "Prefix delegation"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:348
+msgid "Prefix delegation (pd)"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:63
+msgid "RSSI threshold"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:54
+msgid "Radio"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:147
+msgid "Reboot"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:118
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:327
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:329
+msgid "Reboot node"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:136
+msgid "Reboot node?"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:513
+msgid "Reboot on error"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:106
+msgid ""
+"Reboot the node first: the running mesh11sd does not have the saved settings "
+"yet."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:159
+msgid "Rebooting"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:77
+msgid "Receive rate"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:66
+msgid "Received bytes"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:138
+msgid ""
+"Reconnect to LuCI at the node's address. If the address has changed, find it "
+"with SSH over IPv6 link-local (see \"Accessing a node\" in the mesh11sd "
+"README)."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:176
+msgid ""
+"Reconnect to LuCI at the node's new IPv4 address. To find it, use SSH over "
+"IPv6 link-local (see \"Accessing a node\" in the mesh11sd README)."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/log.js:83
+msgid "Refresh"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:291
+msgid "Reload settings"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:87
+msgid "Run confidence test"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:186
+msgid "Run test"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:174
+msgid "Run the confidence test?"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:320
+msgid "Run the mesh11sd daemon."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:431
+msgid "SSID"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:437
+msgid "SSID suffix"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:413
+msgid "STP cost of the mesh. 0 does not set it. Default 65525."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:479
+msgid "STP cost of the tunnel. 0 does not set it. Default 65525."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:328
+msgid "Saved settings take effect after a reboot."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:124
+msgid "Saved settings take effect after a reboot: %s."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:490
+msgid ""
+"Seconds added to the check interval as a progressive step, when the node is "
+"under high load: one step from a load of 0.5 per CPU, two from 1.0. 0 turns "
+"it off. Default 20."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:359
+msgid "Seconds between configuration checks. Default 10."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:499
+msgid "Seconds to wait for an interface to come up. Default 10."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:209
+msgid "Served by node"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:37
+msgid "Service"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:508
+msgid "Sets proxy_arp on the bridge."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:505
+msgid "Sets proxy_arp_pvlan on the mesh interface."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:308
+#: root/usr/share/luci/menu.d/luci-app-mesh11sd.json:27
+msgid "Settings"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:306
+msgid ""
+"Settings of mesh11sd on this node. Save & Apply asks the running daemon to "
+"read its settings again, without a restart; each option says when a change "
+"takes effect. With auto config 1 and portal detect 0 or 1, a saved change "
+"also rebuilds the portal configuration."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:73
+msgid "Signal"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:74
+msgid "Signal average"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/common.js:67
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:510
+msgid "Skip swconfig MAC walk"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:467
+msgid "Spaces are removed. Default VTunnel."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:209
+msgid "Station"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:60
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:228
+msgid "Stations"
+msgstr ""
+
+#: root/usr/share/luci/menu.d/luci-app-mesh11sd.json:19
+msgid "Status"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/log.js:62
+msgid "Stop following"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:517
+msgid "Stop managing the mesh instead of rebooting. Overrides reboot on error."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:516
+msgid "Stop on error"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:31
+msgid ""
+"Takes effect after a reboot: after Save & Apply, use Reboot node at the top "
+"of this page."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:453
+msgid "The VNI; the bridge is br-tun<ID>. Default 69."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:177
+msgid ""
+"The changes are not saved, so a reboot undoes the test. If the node works as "
+"expected, set Auto config to 1 to keep the configuration."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:100
+msgid ""
+"The confidence test is running. A reboot undoes it. If the node works as "
+"expected, set Auto config to 1 to keep the configuration."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:195
+msgid "The confidence test was not started."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/log.js:28
+msgid "The log is empty, or no log file has been written yet."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:407
+msgid "The network (and firewall zone) of the mesh. Not wan. Default lan."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:160
+msgid ""
+"The node is rebooting. Reconnect to LuCI at the node's address when it is "
+"back. If the address has changed, find it with SSH over IPv6 link-local."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:137
+msgid ""
+"The node reboots and comes up with its saved settings. This may change its "
+"role and addresses, so this page will stop responding."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:339
+msgid "The node type. Ignored while auto config is off."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/log.js:74
+msgid ""
+"The output of \"mesh11sd read_log\". What is logged depends on the debug "
+"level set in Settings; notices, warnings and errors are also in the system "
+"log."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:125
+msgid ""
+"The running mesh11sd may not have all the saved settings. Reboot the node to "
+"apply them."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:279
+msgid "The status of mesh11sd on this node, refreshed every 10 seconds."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:175
+msgid ""
+"The test applies the automatic configuration to this node now. Its network "
+"and wireless settings change, and so does its IPv4 address, so this page "
+"will stop responding."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:514
+msgid "The watchdog reboots the node if the portal is still missing."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:56
+msgid "This node"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:199
+msgid ""
+"This node is applying the automatic configuration. The connection to this "
+"page is expected to drop as its address changes. Reconnect to LuCI at the "
+"new IPv4 address; to find it, use SSH over IPv6 link-local."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:409
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:46
+msgid "Transmit power"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:76
+msgid "Transmit rate"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:65
+msgid "Transmitted bytes"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:24
+msgid "Trunk peer"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:86
+msgid "Try the automatic configuration without saving it."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:452
+msgid "Tunnel ID"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:456
+msgid "Tunnel IPv4 address"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:466
+msgid "Tunnel SSID"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:469
+msgid "Tunnel encryption"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:471
+msgid "Tunnel key"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:462
+msgid "Tunnel netmask"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:478
+msgid "Tunnel path cost"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:432
+msgid ""
+"Up to 22 characters with the suffix, 30 without. Spaces are removed. Default "
+"MeshGate."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:404
+msgid "Up to 4 letters or digits; the interface is m-<name>-0. Default 11s."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:32
+msgid "Used by the mesh11sd command line."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:30
+msgid ""
+"Used when the wireless and network configuration is built, normally at first "
+"configuration."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:449
+msgid "VXLAN tunnel"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:36
+msgid "Version"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:519
+msgid "Watchdog log on flash"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:365
+msgid ""
+"Where the mesh11sd log is kept, in its mesh11sd directory, for example /mnt/"
+"usb. Not on system flash. Default /tmp."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:435
+msgid ""
+"While SSID is empty, keep the SSIDs of the wireless config. A stock OpenWrt "
+"SSID is always replaced."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:352
+msgid ""
+"Wireless country code, overriding the wireless config. Default DFS-ETSI."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:45
+msgid "Wireless driver"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:387
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:397
+msgid "auto"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:393
+msgid "auto, default or a channel from 1 to 13"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:523
+msgid "auto, none, or an LED name from /sys/class/leds (color:function)."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:410
+msgid "dBm, within the regulatory limit. Empty leaves the driver setting."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:31
+msgid "debug"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:388
+msgid "default"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:459
+msgid "derived from the mesh key"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:459
+msgid "derived: %s"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:410
+msgid "driver default"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:30
+msgid "info"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/common.js:148
+msgid "luci-app-mesh11sd %s"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/common.js:163
+msgid "mesh11sd %s"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:286
+msgid "mesh11sd will read its settings again at the start of its next loop."
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:92
+msgid "no"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:64
+msgid "not set on this node"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:29
+msgid "notice"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/common.js:64
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:531
+msgid "odhcpd log level"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:67
+msgid "set by DHCP on this node"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:28
+msgid "silent"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/common.js:155
+msgid "unknown"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/common.js:63
+#: htdocs/luci-static/resources/view/mesh11sd/settings.js:534
+msgid "wpad debug level"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/mesh11sd/status.js:92
+msgid "yes"
+msgstr ""

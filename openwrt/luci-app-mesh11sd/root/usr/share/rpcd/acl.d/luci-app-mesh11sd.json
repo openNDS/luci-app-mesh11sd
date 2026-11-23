@@ -1,0 +1,22 @@
+{
+	"luci-app-mesh11sd": {
+		"description": "Grant access to mesh11sd status, settings and log",
+		"read": {
+			"ubus": {
+				"mesh11sd": [ "status", "stations", "version" ]
+			},
+			"cgi-io": [ "exec" ],
+			"file": {
+				"/usr/sbin/mesh11sd read_log": [ "exec" ]
+			},
+			"uci": [ "mesh11sd" ]
+		},
+		"write": {
+			"ubus": {
+				"mesh11sd": [ "config_reload", "auto_config_test" ],
+				"system": [ "reboot" ]
+			},
+			"uci": [ "mesh11sd" ]
+		}
+	}
+}

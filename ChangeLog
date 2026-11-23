@@ -1,0 +1,8 @@
+luci-app-mesh11sd (1.0.0beta)
+  * Add - first version, for mesh11sd 8: Status (ubus status and stations, refreshed every 10 seconds, Reload settings), Settings (the setup section in four tabs, keys as password fields, when each option takes effect), Log (mesh11sd read_log, Refresh and Follow) [bluewavenet]
+  * Add - rpcd ACL: read ubus mesh11sd status, stations and version, uci mesh11sd and the command /usr/sbin/mesh11sd read_log; write ubus mesh11sd config_reload and auto_config_test, ubus system reboot (Reboot node), and uci mesh11sd [bluewavenet]
+  * Add - openwrt/luci layout (luci.mk), tools/feed-sync.sh, translation template [bluewavenet]
+  * Add - Settings, General: Run confidence test (ubus mesh11sd auto_config_test) while the running mesh11sd has auto config 0, with a warning that the address changes and the page stops responding [bluewavenet]
+  * Add - Settings: Reboot node (notice at the top and on the General tab) while a saved option read only at start differs from the running daemon's [bluewavenet]
+
+ -- Rob White <rob@blue-wave.net>  unreleased
