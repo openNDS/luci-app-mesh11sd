@@ -15,6 +15,8 @@ luci-app-mesh11sd (1.0.0beta)
   * Change - Status: mesh path destinations link to the node's LuCI at the node_ula from mesh11sd status (the same address mesh11sd connect prints), in a new tab; without a ULA the destination stays plain text. apmond is not used [bluewavenet]
   * Change - rpcd ACL: drop apmond status [bluewavenet]
   * Change - needs mesh11sd 8.0.0_beta1-r77 for path node_ula [bluewavenet]
+  * Add - Status > Overview: a signal icon on each interface in the radio boxes, as LuCI's own Wireless section: quality from iwinfo for access points; for a mesh point, the strongest peer from the assoclist [bluewavenet]
+  * Add - rpcd ACL: read iwinfo assoclist [bluewavenet]
   * Note - possible future version: commit the fixed-role configuration once (portal_detect 0, 3, 4, 5) so LuCI's own pages show the real state [bluewavenet]
 
  -- Rob White <rob@blue-wave.net>  unreleased

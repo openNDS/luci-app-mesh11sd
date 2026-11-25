@@ -12,13 +12,21 @@
  * getWirelessDevices for the wireless interfaces netifd runs. getWirelessDevices is
  * network.wireless status per radio, with each interface's iwinfo (live mode and SSID) added;
  * luci-base already grants it to every LuCI session, so no ACL entry of our own is needed.
- * No keys are shown.
+ * iwinfo assoclist is used only for the mesh-point signal icon (the strongest peer);
+ * the rpcd ACL can read it. No keys are shown.
  */
 
 var callWirelessDevices = rpc.declare({
 	object: 'luci-rpc',
 	method: 'getWirelessDevices',
 	expect: { '': {} }
+});
+
+var callAssocList = rpc.declare({
+	object: 'iwinfo',
+	method: 'assoclist',
+	params: [ 'device' ],
+	expect: { results: [] }
 });
 
 return baseclass.extend({
@@ -28,7 +36,25 @@ return baseclass.extend({
 		return Promise.all([
 			common.getStatus(),
 			L.resolveDefault(callWirelessDevices(), {})
-		]);
+		]).then(function(data) {
+			var wifi = data[1] || {};
+			var assoc = {};
+			var tasks = [];
+
+			Object.keys(wifi).forEach(function(radio) {
+				(wifi[radio].interfaces || []).forEach(function(i) {
+					if (!i.ifname)
+						return;
+					tasks.push(L.resolveDefault(callAssocList(i.ifname), { results: [] }).then(function(res) {
+						assoc[i.ifname] = (res && res.results) ? res.results : [];
+					}));
+				});
+			});
+
+			return Promise.all(tasks).then(function() {
+				return [ data[0], wifi, assoc ];
+			});
+		});
 	},
 
 	table: function(titles, rows, empty) {
@@ -76,22 +102,87 @@ return baseclass.extend({
 	},
 
 	/*
+	 * Signal icon as in luci-mod-status 60_wifi.js: quality 0 / <25 / <50 / <75 / else,
+	 * or signal-none when the interface is down.
+	 */
+	signalIcon: function(quality, title, down) {
+		var icon;
+
+		if (down)
+			icon = L.resource('icons/signal-none.svg');
+		else if (quality <= 0)
+			icon = L.resource('icons/signal-000-000.svg');
+		else if (quality < 25)
+			icon = L.resource('icons/signal-000-025.svg');
+		else if (quality < 50)
+			icon = L.resource('icons/signal-025-050.svg');
+		else if (quality < 75)
+			icon = L.resource('icons/signal-050-075.svg');
+		else
+			icon = L.resource('icons/signal-075-100.svg');
+
+		return E('img', { 'src': icon, 'title': title || '' });
+	},
+
+	/*
+	 * Quality percent and tooltip for one interface.
+	 * Access points: iwinfo quality / quality_max, the same as LuCI's own SSID badge
+	 * (getSignalPercent). Mesh points: the strongest peer's signal from the assoclist,
+	 * converted with the Associated Stations formula, min((signal + 110) / 70 * 100, 100).
+	 * With no peers, or if the assoclist is missing, fall back to the iwinfo quality.
+	 */
+	ifaceSignal: function(iw, peers, isMesh, down) {
+		var best = null;
+		var i, q;
+
+		if (down)
+			return { quality: 0, title: '', down: true };
+
+		peers = peers || [];
+		for (i = 0; i < peers.length; i++) {
+			if (peers[i].signal != null && (best == null || peers[i].signal > best))
+				best = peers[i].signal;
+		}
+
+		if (isMesh && best != null) {
+			q = Math.min((best + 110) / 70 * 100, 100);
+			return {
+				quality: q,
+				title: '%s: %d %s / %s: %d%%'.format(_('Strongest peer'), best, _('dBm'), _('Quality'), q),
+				down: false
+			};
+		}
+
+		if (iw.quality > 0 && iw.quality_max > 0) {
+			q = Math.floor((100 / iw.quality_max) * iw.quality);
+			return {
+				quality: q,
+				title: '%s: %d %s / %s: %d%%'.format(_('Signal'), iw.signal || 0, _('dBm'), _('Quality'), q),
+				down: false
+			};
+		}
+
+		return { quality: 0, title: '%s: %d%%'.format(_('Quality'), 0), down: false };
+	},
+
+	/*
 	 * One box per radio, in the markup of LuCI's own Wireless section (ifacebox), with a green
 	 * head while the radio is up: the radio's type, channel, country, noise and TX power from
-	 * its iwinfo, then each interface netifd runs on it with its live SSID or mesh ID, mode
-	 * and state.
+	 * its iwinfo, then each interface netifd runs on it with a signal icon, its live SSID or
+	 * mesh ID, mode and state.
 	 */
-	radioBoxes: function(wifi) {
+	radioBoxes: function(wifi, assoc) {
 		var self = this;
 		var boxes = E('div', { 'class': 'network-status-table' });
 		var green = '--zone-color-rgb:46,160,67; background:rgb(46,160,67); color:#fff';
+		var modes = { 'ap': _('Access point'), 'mesh': _('Mesh point'), 'sta': _('Client') };
+		var iwModes = { 'Master': _('Access point'), 'Mesh Point': _('Mesh point'), 'Client': _('Client') };
 
 		Object.keys(wifi || {}).sort().forEach(function(radio) {
 			var r = wifi[radio] || {};
 			var iw = r.iwinfo || {};
 			var c = r.config || {};
 			var hw = (iw.hardware && iw.hardware.name) ? iw.hardware.name : c.type;
-			var ifaces = self.wifiRows({ [radio]: r });
 
 			boxes.appendChild(E('div', { 'class': 'ifacebox' }, [
 				E('div', { 'class': 'ifacebox-head center', 'style': r.up ? green : null },
@@ -104,10 +195,20 @@ return baseclass.extend({
 						_('Noise'), iw.noise ? '%d %s'.format(iw.noise, _('dBm')) : null,
 						_('TX Power'), iw.txpower ? '%d %s'.format(iw.txpower, _('dBm')) : null
 					]),
-					E('div', {}, ifaces.map(function(i) {
+					E('div', {}, (r.interfaces || []).map(function(i) {
+						var ic = i.config || {};
+						var iiw = i.iwinfo || {};
+						var up = r.up && i.ifname && !ic.disabled;
+						var ssid = iiw.ssid || (ic.mode == 'mesh' ? ic.mesh_id : ic.ssid);
+						var mode = iwModes[iiw.mode] || iiw.mode || modes[ic.mode] || common.text(ic.mode);
+						var isMesh = (ic.mode == 'mesh' || iiw.mode == 'Mesh Point');
+						var sig = self.ifaceSignal(iiw, (assoc || {})[i.ifname], isMesh, !up);
+
 						return E('div', { 'class': 'ifacebadge', 'style': 'display:block; margin-top:.25em' }, [
-							E('strong', i[0]), ' ', i[1], ' ',
-							E('span', { 'style': 'font-weight:bold; color:' + (i[5] == _('up') ? 'rgb(46,160,67)' : 'grey') }, i[5])
+							self.signalIcon(sig.quality, sig.title, sig.down), ' ',
+							E('strong', common.text(ssid)), ' ', mode, ' ',
+							E('span', { 'style': 'font-weight:bold; color:' + (up ? 'rgb(46,160,67)' : 'grey') },
+								up ? _('up') : _('down'))
 						]);
 					}))
 				])
@@ -173,7 +274,7 @@ return baseclass.extend({
 					return [ ifname, common.text(m.channel), common.text(m.mesh_id), common.text(m.active_peers),
 						common.text(m.active_portal), common.text(m.portal_ula) ];
 				}), _('No mesh interface is up.')),
-			this.radioBoxes(data[1]),
+			this.radioBoxes(data[1], data[2] || {}),
 			this.table([ _('SSID / Mesh ID'), _('Mode'), _('Interface'), _('Radio'), _('Network'), _('State') ],
 				this.wifiRows(data[1]), _('No wireless interfaces.')),
 			E('p', link)

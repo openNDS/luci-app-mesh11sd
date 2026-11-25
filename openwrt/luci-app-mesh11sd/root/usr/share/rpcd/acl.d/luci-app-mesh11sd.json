@@ -4,7 +4,7 @@
 		"read": {
 			"ubus": {
 				"mesh11sd": [ "status", "stations", "version" ],
-				"iwinfo": [ "countrylist" ]
+				"iwinfo": [ "countrylist", "assoclist" ]
 			},
 			"cgi-io": [ "exec" ],
 			"file": {
