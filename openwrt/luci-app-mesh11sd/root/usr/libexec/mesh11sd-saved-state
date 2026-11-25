@@ -2,10 +2,10 @@
 # Whether the flash config still matches the stock copies mesh11sd made
 # before it first ran. Prints "modified" or "stock". Read only.
 
-# Packages the core LuCI pages show. Same names as mesh11sd's
-# /etc/config/<pkg>_mesh11sd_default backups. revert_all also restores
-# mesh11sd and system; those are left out here.
-pkgs="wireless network dhcp firewall"
+# Packages restore_all puts back from the
+# /etc/config/<pkg>_mesh11sd_default backups (wireless, dhcp, network,
+# firewall and system). mesh11sd's own config is kept, so it is left out.
+pkgs="wireless network dhcp firewall system"
 
 commit_all=$(uci -q get mesh11sd.setup.commit_all)
 [ -z "$commit_all" ] && commit_all=0

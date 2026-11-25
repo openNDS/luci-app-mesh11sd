@@ -56,14 +56,16 @@ Services > Mesh11sd has three tabs:
   `mesh11sd auto_config test`), after a warning that the node's address changes and the page
   stops responding. A reboot undoes the test.
   With auto config on, the General tab also offers "Save live config to flash" and "Revert saved
-  config". Revert is shown when the flash wireless, network, dhcp or firewall configuration
-  differs from the stock copies mesh11sd made before it first ran (`/etc/config/<pkg>_mesh11sd_default`),
-  or when `mesh11sd.setup.commit_all` is 1. Save is shown when those files still match the
-  stock copies. Each sits behind a confirm dialog. Save writes the live wireless, network, dhcp
-  and firewall configuration to flash (`mesh11sd commit_all commit silent`); a reboot is then
-  required, after which portal detection no longer switches the role. Revert drops that saved
-  configuration and returns to dynamic auto configuration (`mesh11sd revert_all revert`); the
-  node reboots. Both are hidden while auto config is off.
+  config". Revert is shown when the flash wireless, network, dhcp, firewall or system
+  configuration differs from the stock copies mesh11sd made before it first ran
+  (`/etc/config/<pkg>_mesh11sd_default`), or when `mesh11sd.setup.commit_all` is 1. Save is shown
+  when those files still match the stock copies. Each sits behind a confirm dialog. Save writes
+  the live wireless, network, dhcp and firewall configuration to flash
+  (`mesh11sd commit_all commit silent`); a reboot is then required, after which portal detection
+  no longer switches the role. Revert restores the wireless, network, dhcp, firewall and system
+  configuration from those stock copies (`mesh11sd restore_all restore`) and returns to dynamic
+  auto configuration; mesh11sd's own settings are kept, so auto configuration rebuilds the live
+  config after the reboot. The node reboots. Both are hidden while auto config is off.
 * **Log** - `mesh11sd read_log`, with Refresh and Follow (re-read every 10 seconds).
 * **Status > Overview** - a Mesh11sd section with the live state: node type, version, auto config,
   what is not saved to flash, each mesh interface (channel, mesh ID, active peers, active portal
@@ -98,13 +100,14 @@ with `rpc.declare()`. The rpcd ACL
 (the Country list, as LuCI's wireless page) and `assoclist` (Overview mesh-point signal),
 the uci config `mesh11sd`, and the commands
 `/usr/sbin/mesh11sd read_log`, `/usr/libexec/mesh11sd-commit-all`,
-`/usr/libexec/mesh11sd-revert-all` and `/usr/libexec/mesh11sd-saved-state`; and writing
+`/usr/libexec/mesh11sd-restore-all` and `/usr/libexec/mesh11sd-saved-state`; and writing
 `config_reload`, `auto_config_test`, the uci config
 `mesh11sd`, and `system` `reboot` for Reboot node (the same entry as System > Reboot).
-The commit and revert helpers run the mesh11sd CLI after the Settings confirm dialog (commit uses the existing
-`silent` form; revert answers the CLI yes/no prompt). The saved-state helper is read only: it
-compares the flash wireless, network, dhcp and firewall files with mesh11sd's stock copies and
-prints `modified` or `stock`. Nothing is committed or reverted through
+The commit and restore helpers run the mesh11sd CLI after the Settings confirm dialog (commit uses the existing
+`silent` form; restore answers the CLI yes/no prompt, and clears `commit_all` first if it was
+set, so that flag does not remain in the kept mesh11sd config). The saved-state helper is read only: it
+compares the flash wireless, network, dhcp, firewall and system files with mesh11sd's stock copies and
+prints `modified` or `stock`. Nothing is committed or restored through
 the `mesh11sd` ubus object.
 
 ## Building
@@ -134,7 +137,7 @@ openwrt/luci-app-mesh11sd/                     # = applications/luci-app-mesh11s
   htdocs/luci-static/resources/preload/mesh11sd.js  # Notice on every page while config is unsaved
   root/usr/share/luci/menu.d/                  # Menu entry, Services > Mesh11sd
   root/usr/share/rpcd/acl.d/                   # rpcd ACL
-  root/usr/libexec/                            # commit_all / revert_all / saved-state helpers
+  root/usr/libexec/                            # commit_all / restore_all / saved-state helpers
   po/templates/mesh11sd.pot                    # Translation template
 tools/feed-sync.sh                             # Copy to / check against an openwrt/luci checkout
 ```

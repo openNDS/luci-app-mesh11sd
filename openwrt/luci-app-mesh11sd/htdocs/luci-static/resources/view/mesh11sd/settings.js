@@ -257,10 +257,11 @@ return view.extend({
 	/*
 	 * Save live config / Revert saved config. Hidden while auto_config is 0
 	 * (the mesh11sd CLI refuses both commands, and mesh11sd is not managing
-	 * the config). Revert is shown when the flash wireless, network, dhcp or
-	 * firewall config differs from mesh11sd's stock copies, or commit_all is
-	 * 1. Save is shown when the flash config still matches those copies.
-	 * If the helper does not answer, the saved commit_all flag is used, as in r9.
+	 * the config). Revert is shown when the flash wireless, network, dhcp,
+	 * firewall or system config differs from mesh11sd's stock copies, or
+	 * commit_all is 1. Save is shown when the flash config still matches
+	 * those copies. If the helper does not answer, the saved commit_all flag
+	 * is used, as in r9.
 	 */
 	commitAllButtons: function(s, st, saved) {
 		var setup = (st && st.setup) ? st.setup : null;
@@ -285,7 +286,7 @@ return view.extend({
 
 		if (saved == 'modified') {
 			o = s.taboption('general', form.Button, '_revert_all', _('Revert saved config'),
-				_('Drop the configuration previously saved to flash and return to dynamic auto configuration. The node reboots.'));
+				_('Restore the wireless, network, dhcp, firewall and system configuration to how it was before mesh11sd first ran, and return to dynamic auto configuration. mesh11sd\'s own settings are kept. The node reboots.'));
 			o.inputtitle = _('Revert saved config');
 			o.inputstyle = 'negative';
 			o.onclick = function() {
@@ -364,7 +365,8 @@ return view.extend({
 		var self = this;
 
 		ui.showModal(_('Revert saved config?'), [
-			E('p', _('This drops the configuration previously saved to flash and returns to dynamic auto configuration.')),
+			E('p', _('This restores the wireless, network, dhcp, firewall and system configuration to how it was before mesh11sd first ran, and returns to dynamic auto configuration.')),
+			E('p', _('mesh11sd\'s own settings are kept, so auto configuration rebuilds the live config after the reboot.')),
 			E('p', _('The node will reboot, and this page will stop responding. Reconnect to LuCI at the node\'s address when it is back. If the address has changed, find it with SSH over IPv6 link-local (see "Accessing a node" in the mesh11sd README).')),
 			E('div', { 'class': 'right' }, [
 				E('button', { 'class': 'btn', 'click': ui.hideModal }, _('Cancel')),
@@ -389,13 +391,13 @@ return view.extend({
 				return;
 			}
 			ui.showModal(_('Rebooting'), [
-				E('p', _('The saved configuration has been dropped. The node is rebooting into dynamic auto configuration. Reconnect to LuCI at the node\'s address when it is back. If the address has changed, find it with SSH over IPv6 link-local.')),
+				E('p', _('The saved configuration has been restored. mesh11sd\'s own settings are kept, and the node is rebooting so auto configuration can rebuild the live config. Reconnect to LuCI at the node\'s address when it is back. If the address has changed, find it with SSH over IPv6 link-local.')),
 				E('div', { 'class': 'right' }, [
 					E('button', { 'class': 'btn', 'click': ui.hideModal }, _('Close'))
 				])
 			]);
 		}, function() {
-			/* the node reboots as soon as revert_all finishes, so a dropped connection is expected */
+			/* the node reboots as soon as restore_all finishes, so a dropped connection is expected */
 			ui.showModal(_('Rebooting'), [
 				E('p', _('The node is rebooting into dynamic auto configuration. Reconnect to LuCI at the node\'s address when it is back. If the address has changed, find it with SSH over IPv6 link-local.')),
 				E('div', { 'class': 'right' }, [

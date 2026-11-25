@@ -138,15 +138,17 @@ return baseclass.extend({
 		return fs.exec('/usr/libexec/mesh11sd-commit-all', []);
 	},
 
-	/* drop the committed config and reboot (mesh11sd revert_all revert, after the dialog) */
+	/* restore stock wireless/network/dhcp/firewall/system and reboot
+	 * (mesh11sd restore_all restore, after the dialog). mesh11sd's own
+	 * config is kept; the helper clears commit_all first if it was set. */
 	revertAll: function() {
-		return fs.exec('/usr/libexec/mesh11sd-revert-all', []);
+		return fs.exec('/usr/libexec/mesh11sd-restore-all', []);
 	},
 
 	/*
-	 * Whether the flash wireless, network, dhcp or firewall config differs from the
-	 * stock copies mesh11sd made before it first ran, or commit_all is 1: "modified"
-	 * or "stock". Empty if the helper does not answer.
+	 * Whether the flash wireless, network, dhcp, firewall or system config differs
+	 * from the stock copies mesh11sd made before it first ran, or commit_all is 1:
+	 * "modified" or "stock". Empty if the helper does not answer.
 	 */
 	savedState: function() {
 		return fs.exec('/usr/libexec/mesh11sd-saved-state', []).then(function(res) {
