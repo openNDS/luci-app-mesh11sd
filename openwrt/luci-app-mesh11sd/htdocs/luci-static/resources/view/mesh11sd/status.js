@@ -16,14 +16,6 @@
  * stations: { "<ifname>": [ { "mac": ..., "mesh plink": ..., "signal": ..., ... } ] }
  */
 
-var NODE_TYPES = {
-	'MRP': _('Mesh routed portal'),
-	'MPE': _('Mesh peer'),
-	'CPE': _('Customer premises equipment'),
-	'MBP': _('Mesh bridged portal'),
-	'TPE': _('Trunk peer')
-};
-
 var DEBUGLEVEL = {
 	'0': _('silent'),
 	'1': _('notice'),
@@ -82,8 +74,8 @@ var PEER_COLUMNS = [
 return view.extend({
 	/* one setup value as display text */
 	setupValue: function(key, v) {
-		if (key == 'node_type' && NODE_TYPES[v]) {
-			return '%s (%s)'.format(v, NODE_TYPES[v]);
+		if (key == 'node_type' && v) {
+			return common.nodeTypeText(v);
 		}
 		if (key == 'debuglevel' && DEBUGLEVEL[String(v)]) {
 			return '%s (%s)'.format(v, DEBUGLEVEL[String(v)]);

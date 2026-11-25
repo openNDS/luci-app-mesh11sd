@@ -21,7 +21,7 @@ Makefile, `htdocs/`, `root/` and `po/`), and a feed pull request is a straight c
 ## mesh11sd 8
 
 luci-app-mesh11sd reads mesh11sd over its `mesh11sd` ubus object, which is new in mesh11sd 8, so it
-needs mesh11sd 8 or later (for now 8.0.0_beta1-r72, for `auto_config_test` and the running values in status). There was no LuCI app for mesh11sd 7.
+needs mesh11sd 8 or later (for now 8.0.0_beta1-r76, for `auto_config_test`, the running values and `unsaved_config` in status). There was no LuCI app for mesh11sd 7.
 
 ## Pages
 
@@ -54,6 +54,22 @@ Services > Mesh11sd has three tabs:
   `mesh11sd auto_config test`), after a warning that the node's address changes and the page
   stops responding. A reboot undoes the test.
 * **Log** - `mesh11sd read_log`, with Refresh and Follow (re-read every 10 seconds).
+* **Status > Overview** - a Mesh11sd section with the live state: node type, version, auto config,
+  what is not saved to flash, each mesh interface (channel, mesh ID, active peers, active portal
+  and portal ULA), and the wireless interfaces netifd really runs (SSID or mesh ID, mode, radio,
+  network, up or down), from `ubus call network.wireless status`.
+* **Notice on every page** - mesh11sd applies much of its configuration as uncommitted uci changes,
+  so nothing extra is written to flash. LuCI's own pages read only the saved configuration, so its
+  Network and Wireless pages can show access points as disabled, leave out interfaces mesh11sd
+  added, or mark them for deletion. While `unsaved_config` in status lists any package, a header
+  indicator ("Live config not saved") is shown on every page, and on the Network pages a notice
+  says that the pages show the saved configuration and links to Services > Mesh11sd. It is a
+  preload class (`htdocs/luci-static/resources/preload/mesh11sd.js`), as luci-mod-battstatus uses.
+
+A possible future version: commit the configuration once for the fixed-role node types
+(`portal_detect` 0, 3, 4 and 5), at first configuration and when the mesh11sd config changes, not
+on every boot, so LuCI's own pages show the real state there. Peers that pick their role at run
+time (`portal_detect` 1) would still need the notice.
 
 ## How it works
 
@@ -61,7 +77,8 @@ The app is plain LuCI JavaScript. There is no ucode, Lua, CGI or rpcd plugin: se
 standard `form.Map('mesh11sd')`, and the other pages call the `mesh11sd` ubus object through rpcd
 with `rpc.declare()`. The rpcd ACL
 (`openwrt/luci-app-mesh11sd/root/usr/share/rpcd/acl.d/luci-app-mesh11sd.json`) allows reading
-`status`, `stations` and `version`, the uci config `mesh11sd`, and one command,
+`status`, `stations` and `version`, `network.wireless` `status` (for the Overview section), the
+uci config `mesh11sd`, and one command,
 `/usr/sbin/mesh11sd read_log`; and writing `config_reload`, `auto_config_test`, the uci config
 `mesh11sd`, and `system` `reboot` for Reboot node (the same entry as System > Reboot).
 Nothing can be committed, reverted or restored through the `mesh11sd` ubus object.
@@ -89,6 +106,8 @@ independent. The version shown in the LuCI footer comes from `common.js`.
 openwrt/luci-app-mesh11sd/                     # = applications/luci-app-mesh11sd in openwrt/luci
   Makefile                                     # luci.mk package Makefile, as in the feed
   htdocs/luci-static/resources/view/mesh11sd/  # The views and common.js
+  htdocs/luci-static/resources/view/status/include/65_mesh11sd.js  # Status > Overview section
+  htdocs/luci-static/resources/preload/mesh11sd.js  # Notice on every page while config is unsaved
   root/usr/share/luci/menu.d/                  # Menu entry, Services > Mesh11sd
   root/usr/share/rpcd/acl.d/                   # rpcd ACL
   po/templates/mesh11sd.pot                    # Translation template

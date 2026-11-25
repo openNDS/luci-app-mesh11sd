@@ -3,7 +3,8 @@
 		"description": "Grant access to mesh11sd status, settings and log",
 		"read": {
 			"ubus": {
-				"mesh11sd": [ "status", "stations", "version" ]
+				"mesh11sd": [ "status", "stations", "version" ],
+				"network.wireless": [ "status" ]
 			},
 			"cgi-io": [ "exec" ],
 			"file": {
