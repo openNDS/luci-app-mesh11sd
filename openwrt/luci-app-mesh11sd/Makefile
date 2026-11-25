@@ -11,7 +11,7 @@ LUCI_DEPENDS:=+luci-base +mesh11sd
 LUCI_EXTRA_DEPENDS:=mesh11sd (>=8.0.0_beta1-r77)
 
 PKG_VERSION:=1.0.0_beta
-PKG_RELEASE:=11
+PKG_RELEASE:=12
 PKG_LICENSE:=GPL-2.0-or-later
 PKG_MAINTAINER:=Rob White <rob@blue-wave.net>
 

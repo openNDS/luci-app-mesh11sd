@@ -467,12 +467,46 @@ return view.extend({
 		return this.when(o, kind);
 	},
 
+	/*
+	 * Text and password fields: turn off browser autocomplete, and only write
+	 * a value the user edited. Mesh ID seed is a text field immediately
+	 * followed by Mesh key seed, a password field. On Save & Apply, LuCI
+	 * writes any field whose form value differs from the (unset) config, so
+	 * a password manager can commit the LuCI user name (often "root") and a
+	 * saved password as auto_mesh_id and auto_mesh_key.
+	 */
+	protectInput: function(o, autocomplete) {
+		o.renderWidget = function(section_id, option_index, cfgvalue) {
+			var node = form.Value.prototype.renderWidget.apply(this,
+				[ section_id, option_index, cfgvalue ]);
+			var input = node ? node.querySelector('input') : null;
+
+			if (input) {
+				input.setAttribute('autocomplete', autocomplete);
+			}
+			return node;
+		};
+
+		o.parse = function(section_id) {
+			if (this.isActive(section_id)) {
+				var elem = this.getUIElement(section_id);
+
+				if (elem && !elem.isChanged()) {
+					return Promise.resolve();
+				}
+			}
+			return form.Value.prototype.parse.apply(this, [ section_id ]);
+		};
+		return o;
+	},
+
 	/* a text Value with a placeholder */
 	textValue: function(s, tab, name, title, descr, placeholder, kind) {
 		var o = s.taboption(tab, form.Value, name, title, descr);
 
 		o.placeholder = placeholder;
 		o.rmempty = true;
+		this.protectInput(o, 'off');
 		return this.when(o, kind);
 	},
 
@@ -482,6 +516,7 @@ return view.extend({
 
 		o.password = true;
 		o.rmempty = true;
+		this.protectInput(o, 'new-password');
 		return this.when(o, kind);
 	},
 
