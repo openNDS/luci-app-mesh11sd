@@ -4,7 +4,6 @@
 		"read": {
 			"ubus": {
 				"mesh11sd": [ "status", "stations", "version" ],
-				"apmond": [ "status" ],
 				"iwinfo": [ "countrylist" ]
 			},
 			"cgi-io": [ "exec" ],

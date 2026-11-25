@@ -12,7 +12,9 @@ luci-app-mesh11sd (1.0.0beta)
   * Add - rpcd ACL: read apmond status and iwinfo countrylist [bluewavenet]
   * Add - Status > Overview: per-radio boxes (ifacebox, green head while up) with type, channel, country, noise, TX power and each live interface, above the wireless table [bluewavenet]
   * Add - Status > Overview: a Mesh11sd section with the live node, mesh interfaces and wireless interfaces (luci-rpc getWirelessDevices, live iwinfo SSID and mode, granted by luci-base, no ACL entry of our own) [bluewavenet]
-  * Change - needs mesh11sd 8.0.0_beta1-r76 for unsaved_config [bluewavenet]
+  * Change - Status: mesh path destinations link to the node's LuCI at the node_ula from mesh11sd status (the same address mesh11sd connect prints), in a new tab; without a ULA the destination stays plain text. apmond is not used [bluewavenet]
+  * Change - rpcd ACL: drop apmond status [bluewavenet]
+  * Change - needs mesh11sd 8.0.0_beta1-r77 for path node_ula [bluewavenet]
   * Note - possible future version: commit the fixed-role configuration once (portal_detect 0, 3, 4, 5) so LuCI's own pages show the real state [bluewavenet]
 
  -- Rob White <rob@blue-wave.net>  unreleased

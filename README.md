@@ -21,7 +21,7 @@ Makefile, `htdocs/`, `root/` and `po/`), and a feed pull request is a straight c
 ## mesh11sd 8
 
 luci-app-mesh11sd reads mesh11sd over its `mesh11sd` ubus object, which is new in mesh11sd 8, so it
-needs mesh11sd 8 or later (for now 8.0.0_beta1-r76, for `auto_config_test`, the running values and `unsaved_config` in status). There was no LuCI app for mesh11sd 7.
+needs mesh11sd 8 or later (for now 8.0.0_beta1-r77, for `auto_config_test`, the running values, `unsaved_config` and path `node_ula` in status). There was no LuCI app for mesh11sd 7.
 
 ## Pages
 
@@ -34,10 +34,9 @@ Services > Mesh11sd has three tabs:
   refreshes), then for each mesh interface its mesh ID, radio, channel,
   active portal and counters, the one-hop peers (peer link state, signal, airtime metric, rates),
   the mesh paths and the stations with the node that serves each one. "Reload settings" calls
-  `config_reload`. Neither reply contains a key. When apmond runs on this node, each mesh path
-  destination links to that node's LuCI in a new tab, at its apmond ULA: the /64 of this node's
-  `node_ula` (`ubus call apmond status`) plus the EUI-64 of the destination's mesh MAC, as apmond
-  forms its own `node_ula`. Without apmond the destinations are plain text.
+  `config_reload`. Neither reply contains a key. Each mesh path destination links to that node's
+  LuCI in a new tab at the `node_ula` mesh11sd reports in status, the same address `mesh11sd
+  connect` prints. Destinations without a ULA are plain text.
 * **Settings** - the options of `config mesh11sd 'setup'` in `/etc/config/mesh11sd`, in General,
   Mesh backhaul, Gate and SSID, and Advanced tabs. Every option is optional: the mesh11sd defaults
   are shown as placeholders and an option is only written when you change it. Keys are password
@@ -84,7 +83,7 @@ The app is plain LuCI JavaScript. There is no ucode, Lua, CGI or rpcd plugin: se
 standard `form.Map('mesh11sd')`, and the other pages call the `mesh11sd` ubus object through rpcd
 with `rpc.declare()`. The rpcd ACL
 (`openwrt/luci-app-mesh11sd/root/usr/share/rpcd/acl.d/luci-app-mesh11sd.json`) allows reading
-`status`, `stations` and `version`, `apmond` `status` (mesh path links), `iwinfo` `countrylist`
+`status`, `stations` and `version`, `iwinfo` `countrylist`
 (the Country list, as LuCI's wireless page), the uci config `mesh11sd`, and one command,
 `/usr/sbin/mesh11sd read_log`; and writing `config_reload`, `auto_config_test`, the uci config
 `mesh11sd`, and `system` `reboot` for Reboot node (the same entry as System > Reboot).

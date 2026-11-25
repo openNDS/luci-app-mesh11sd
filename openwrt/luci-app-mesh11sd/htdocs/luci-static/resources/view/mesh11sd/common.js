@@ -69,35 +69,6 @@ var restartOptions = {
 	'move_ethernet_to_vxlan_bridge': _('Ethernet on tunnel')
 };
 
-/* apmond's own status, read only: its node_ula gives the /64 that apmond uses */
-var callApmondStatus = rpc.declare({
-	object: 'apmond',
-	method: 'status',
-	expect: { '': {} }
-});
-
-/* an IPv6 address as eight hex groups, or null */
-function expandIPv6(a) {
-	var halves, head, tail, fill = [];
-
-	if (typeof(a) != 'string' || !/^[0-9a-fA-F:]+$/.test(a)) {
-		return null;
-	}
-	halves = a.split('::');
-	if (halves.length > 2) {
-		return null;
-	}
-	head = halves[0] ? halves[0].split(':') : [];
-	tail = (halves.length == 2 && halves[1]) ? halves[1].split(':') : [];
-	if (halves.length == 2) {
-		while (head.length + fill.length + tail.length < 8) {
-			fill.push('0');
-		}
-	}
-	head = head.concat(fill, tail);
-	return (head.length == 8) ? head : null;
-}
-
 /* node_type in status */
 var nodeTypes = {
 	'MRP': _('Mesh routed portal'),
@@ -109,34 +80,6 @@ var nodeTypes = {
 
 return baseclass.extend({
 	version: version,
-
-	/*
-	 * The /64 apmond uses for node ULAs, from "ubus call apmond status" node_ula, as
-	 * "fd46:cfe5:34c5:6ddd"; null when apmond is not installed, not running or has no ULA.
-	 */
-	getApmondPrefix: function() {
-		return L.resolveDefault(callApmondStatus(), null).then(function(st) {
-			var g = expandIPv6(st ? st.node_ula : null);
-
-			return g ? g.slice(0, 4).map(function(x) { return parseInt(x, 16).toString(16); }).join(':') : null;
-		});
-	},
-
-	/*
-	 * apmond's ULA of the node with this mesh MAC: the prefix, then the EUI-64 of the MAC
-	 * (universal/local bit flipped, ff:fe in the middle), as apmond forms its node_ula.
-	 * Mesh MAC 94:83:c4:cd:49:74 -> <prefix>:9683:c4ff:fecd:4974.
-	 */
-	nodeULA: function(prefix, mac) {
-		var b = String(mac || '').split(':').map(function(x) { return parseInt(x, 16); });
-
-		if (!prefix || b.length != 6 || b.some(isNaN)) {
-			return null;
-		}
-		b[0] ^= 2;
-		return [ prefix, (b[0] << 8 | b[1]).toString(16), (b[2] << 8 | 0xff).toString(16),
-			(0xfe00 | b[3]).toString(16), (b[4] << 8 | b[5]).toString(16) ].join(':');
-	},
 
 	/* "CPE (Customer premises equipment)", or the type as it is when unknown */
 	nodeTypeText: function(t) {
