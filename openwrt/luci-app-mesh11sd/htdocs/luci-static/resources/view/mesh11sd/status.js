@@ -172,11 +172,24 @@ return view.extend({
 	},
 
 	/* mesh paths (iw mpath dump) from the status reply */
+	/* a destination: a link to that node's LuCI in a new tab when its apmond ULA is known */
+	destination: function(mac) {
+		var ula = common.nodeULA(this.apmondPrefix, mac);
+		var url;
+
+		if (!ula) {
+			return mac;
+		}
+		url = 'http://[' + ula + ']/cgi-bin/luci/';
+		return E('a', { 'href': url, 'target': '_blank', 'rel': 'noopener', 'title': url }, [ mac ]);
+	},
+
 	renderPaths: function(paths) {
+		var self = this;
 		var rows = Object.keys(paths || {}).sort().map(function(mac) {
 			var p = paths[mac] || {};
 
-			return [ mac, common.text(p.next_hop), common.text(p.hop_count),
+			return [ self.destination(mac), common.text(p.next_hop), common.text(p.hop_count),
 				common.text(p.airtime_metric), common.text(p.mpath_metric),
 				common.text(p.hwmp_flags_bitmask) ];
 		});
@@ -229,6 +242,8 @@ return view.extend({
 		var out = [];
 		var ifs;
 
+		this.apmondPrefix = data[2] || null;
+
 		if (st == null) {
 			return E('div', { 'class': 'alert-message error' },
 				_('Could not read the mesh11sd status. Is mesh11sd 8 installed and running?'));
@@ -249,7 +264,7 @@ return view.extend({
 	},
 
 	fetch: function() {
-		return Promise.all([ common.getStatus(), common.getStations() ]);
+		return Promise.all([ common.getStatus(), common.getStations(), common.getApmondPrefix() ]);
 	},
 
 	load: function() {
