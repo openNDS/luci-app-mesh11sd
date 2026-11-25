@@ -25,6 +25,52 @@
  * Keys are password fields. Nothing here reads or shows a key that is not in the config.
  */
 
+/* the driver's country list, as LuCI's wireless page reads it */
+var callCountryList = rpc.declare({
+	object: 'iwinfo',
+	method: 'countrylist',
+	params: [ 'device' ],
+	expect: { results: [] }
+});
+
+/*
+ * Country: a list of the driver's countries (iwinfo countrylist for the radio in .device),
+ * with "Default (DFS-ETSI)" first, which leaves the option unset. A saved value that is not
+ * in the list is still offered. Without a list (no wireless, or no access), a text field.
+ */
+var CountryValue = form.Value.extend({
+	load: function(section_id) {
+		return L.resolveDefault(callCountryList(this.device), []).then(L.bind(function(list) {
+			var cur = uci.get('mesh11sd', section_id, 'country');
+
+			if (Array.isArray(list) && list.length) {
+				this.value('', _('Default (DFS-ETSI)'));
+				list.forEach(L.bind(function(c) {
+					this.value(c.iso3166, '%s - %s'.format(c.iso3166, c.country));
+				}, this));
+				if (cur && this.keylist.indexOf(cur) < 0) {
+					this.value(cur, cur);
+				}
+			}
+			return form.Value.prototype.load.apply(this, [ section_id ]);
+		}, this));
+	},
+
+	validate: function(section_id, value) {
+		if (value == null || value === '' || (this.keylist && this.keylist.indexOf(value) >= 0) ||
+		    /^[A-Z0-9][A-Z0-9]$/.test(value)) {
+			return true;
+		}
+		return _('Use ISO/IEC 3166 alpha2 country codes.');
+	},
+
+	renderWidget: function(section_id, option_index, cfgvalue) {
+		var cls = (this.keylist && this.keylist.length) ? form.ListValue : form.Value;
+
+		return cls.prototype.renderWidget.apply(this, [ section_id, option_index, cfgvalue ]);
+	}
+});
+
 var WHEN = {
 	'live': _('Applied on Save & Apply.'),
 	'build': _('Used when the wireless and network configuration is built, normally at first configuration.'),
@@ -208,7 +254,15 @@ return view.extend({
 		});
 	},
 
-		/* add the "when does it apply" note to an option's description */
+		/* the radio to read the country list from: the mesh radio, else radio0 */
+	countryDevice: function(st) {
+		var m = (st && st.mesh_interfaces) ? st.mesh_interfaces : {};
+		var ifs = Object.keys(m);
+
+		return (ifs.length && m[ifs[0]].device) ? m[ifs[0]].device : 'radio0';
+	},
+
+	/* add the "when does it apply" note to an option's description */
 	when: function(o, kind) {
 		o.description = o.description ? '%s %s'.format(o.description, WHEN[kind]) : WHEN[kind];
 		return o;
@@ -345,11 +399,21 @@ return view.extend({
 
 		o = this.list(s, 'general', 'cpe_mode', _('CPE mode'),
 			_('CPE only: how the LAN gets its IPv6 addresses.'),
-			[ [ 'nat66', _('NAT66') ], [ 'prefix_delegation', _('Prefix delegation') ], [ 'pd', _('Prefix delegation (pd)') ] ], 'nat66', 'restart');
+			[ [ 'nat66', _('NAT66') ], [ 'pd', _('Prefix delegation') ] ], 'nat66', 'restart');
 		o.depends('portal_detect', '3');
+		/* mesh11sd reads prefix_delegation as pd: show a saved one as pd, and leave it as it is */
+		o.cfgvalue = function(section_id) {
+			var v = form.ListValue.prototype.cfgvalue.apply(this, [ section_id ]);
 
-		this.textValue(s, 'general', 'country', _('Country'),
-			_('Wireless country code, overriding the wireless config. Default DFS-ETSI.'), 'DFS-ETSI', 'build');
+			return (v == 'prefix_delegation') ? 'pd' : v;
+		};
+
+		o = s.taboption('general', CountryValue, 'country', _('Country'),
+			_('Wireless country code, overriding the wireless config. Default DFS-ETSI.'));
+		o.device = this.countryDevice(st);
+		o.placeholder = 'DFS-ETSI';
+		o.rmempty = true;
+		this.when(o, 'build');
 
 		this.list(s, 'general', 'debuglevel', _('Debug level'),
 			_('Notices, warnings and errors also go to the system log; info and debug go to the mesh11sd log only.'),

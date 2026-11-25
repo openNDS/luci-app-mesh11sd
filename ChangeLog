@@ -4,5 +4,17 @@ luci-app-mesh11sd (1.0.0beta)
   * Add - openwrt/luci layout (luci.mk), tools/feed-sync.sh, translation template [bluewavenet]
   * Add - Settings, General: Run confidence test (ubus mesh11sd auto_config_test) while the running mesh11sd has auto config 0, with a warning that the address changes and the page stops responding [bluewavenet]
   * Add - Settings: Reboot node (notice at the top and on the General tab) while a saved option read only at start differs from the running daemon's [bluewavenet]
+  * Add - a header indicator on every LuCI page, and a notice on the Network pages, while mesh11sd runs a configuration not saved to flash (status unsaved_config), since LuCI's own pages show the saved configuration only [bluewavenet]
+  * Change - the indicator reads "Mesh11sd live config"; clicking it opens a modal with the explanation, a link to Services > Mesh11sd and Close, instead of adding a notice each time; the Network page notice is never duplicated [bluewavenet]
+  * Change - Settings: Country is a list of the driver's countries (iwinfo countrylist), with Default (DFS-ETSI) first, which leaves it unset; a saved value not in the list is kept [bluewavenet]
+  * Fix - Settings: CPE mode has one Prefix delegation entry (pd); a saved prefix_delegation shows as it [bluewavenet]
+  * Add - Status: mesh path destinations link to the node's LuCI at its apmond ULA (apmond status node_ula prefix plus the EUI-64 of the mesh MAC) when apmond runs [bluewavenet]
+  * Add - rpcd ACL: read apmond status and iwinfo countrylist [bluewavenet]
+  * Add - Status > Overview: per-radio boxes (ifacebox, green head while up) with type, channel, country, noise, TX power and each live interface, above the wireless table [bluewavenet]
+  * Add - Status > Overview: a Mesh11sd section with the live node, mesh interfaces and wireless interfaces (luci-rpc getWirelessDevices, live iwinfo SSID and mode, granted by luci-base, no ACL entry of our own) [bluewavenet]
+  * Change - Status: mesh path destinations link to the node's LuCI at the node_ula from mesh11sd status (the same address mesh11sd connect prints), in a new tab; without a ULA the destination stays plain text. apmond is not used [bluewavenet]
+  * Change - rpcd ACL: drop apmond status [bluewavenet]
+  * Change - needs mesh11sd 8.0.0_beta1-r77 for path node_ula [bluewavenet]
+  * Note - possible future version: commit the fixed-role configuration once (portal_detect 0, 3, 4, 5) so LuCI's own pages show the real state [bluewavenet]
 
  -- Rob White <rob@blue-wave.net>  unreleased

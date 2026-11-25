@@ -8,10 +8,10 @@ include $(TOPDIR)/rules.mk
 LUCI_TITLE:=LuCI support for mesh11sd
 LUCI_DESCRIPTION:=Status, settings and log for mesh11sd 8.x, the 802.11s mesh and access point manager.
 LUCI_DEPENDS:=+luci-base +mesh11sd
-LUCI_EXTRA_DEPENDS:=mesh11sd (>=8.0.0_beta1-r72)
+LUCI_EXTRA_DEPENDS:=mesh11sd (>=8.0.0_beta1-r77)
 
 PKG_VERSION:=1.0.0_beta
-PKG_RELEASE:=1
+PKG_RELEASE:=7
 PKG_LICENSE:=GPL-2.0-or-later
 PKG_MAINTAINER:=Rob White <rob@blue-wave.net>
 

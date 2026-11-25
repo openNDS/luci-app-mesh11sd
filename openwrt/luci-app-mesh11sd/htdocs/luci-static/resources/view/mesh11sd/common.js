@@ -69,8 +69,34 @@ var restartOptions = {
 	'move_ethernet_to_vxlan_bridge': _('Ethernet on tunnel')
 };
 
+/* node_type in status */
+var nodeTypes = {
+	'MRP': _('Mesh routed portal'),
+	'MPE': _('Mesh peer'),
+	'CPE': _('Customer premises equipment'),
+	'MBP': _('Mesh bridged portal'),
+	'TPE': _('Trunk peer')
+};
+
 return baseclass.extend({
 	version: version,
+
+	/* "CPE (Customer premises equipment)", or the type as it is when unknown */
+	nodeTypeText: function(t) {
+		return nodeTypes[t] ? '%s (%s)'.format(t, nodeTypes[t]) : String(t);
+	},
+
+	/*
+	 * The packages whose live configuration is not saved to flash (status unsaved_config,
+	 * mesh11sd r76 or later), as an array; empty when everything is saved or unknown.
+	 */
+	unsavedConfig: function(st) {
+		var v = (st && st.setup) ? st.setup.unsaved_config : null;
+
+		return String(v || '').split(' ').filter(function(p) {
+			return p != '';
+		});
+	},
 
 	/* ubus call mesh11sd status, or null when mesh11sd does not answer */
 	getStatus: function() {

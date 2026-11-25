@@ -16,14 +16,6 @@
  * stations: { "<ifname>": [ { "mac": ..., "mesh plink": ..., "signal": ..., ... } ] }
  */
 
-var NODE_TYPES = {
-	'MRP': _('Mesh routed portal'),
-	'MPE': _('Mesh peer'),
-	'CPE': _('Customer premises equipment'),
-	'MBP': _('Mesh bridged portal'),
-	'TPE': _('Trunk peer')
-};
-
 var DEBUGLEVEL = {
 	'0': _('silent'),
 	'1': _('notice'),
@@ -82,8 +74,8 @@ var PEER_COLUMNS = [
 return view.extend({
 	/* one setup value as display text */
 	setupValue: function(key, v) {
-		if (key == 'node_type' && NODE_TYPES[v]) {
-			return '%s (%s)'.format(v, NODE_TYPES[v]);
+		if (key == 'node_type' && v) {
+			return common.nodeTypeText(v);
 		}
 		if (key == 'debuglevel' && DEBUGLEVEL[String(v)]) {
 			return '%s (%s)'.format(v, DEBUGLEVEL[String(v)]);
@@ -180,11 +172,23 @@ return view.extend({
 	},
 
 	/* mesh paths (iw mpath dump) from the status reply */
+	/* a destination: a link to that node's LuCI in a new tab when status has node_ula */
+	destination: function(mac, ula) {
+		var url;
+
+		if (!ula) {
+			return mac;
+		}
+		url = 'http://[' + ula + ']/cgi-bin/luci/';
+		return E('a', { 'href': url, 'target': '_blank', 'rel': 'noopener', 'title': url }, [ mac ]);
+	},
+
 	renderPaths: function(paths) {
+		var self = this;
 		var rows = Object.keys(paths || {}).sort().map(function(mac) {
 			var p = paths[mac] || {};
 
-			return [ mac, common.text(p.next_hop), common.text(p.hop_count),
+			return [ self.destination(mac, p.node_ula), common.text(p.next_hop), common.text(p.hop_count),
 				common.text(p.airtime_metric), common.text(p.mpath_metric),
 				common.text(p.hwmp_flags_bitmask) ];
 		});

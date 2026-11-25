@@ -21,7 +21,7 @@ Makefile, `htdocs/`, `root/` and `po/`), and a feed pull request is a straight c
 ## mesh11sd 8
 
 luci-app-mesh11sd reads mesh11sd over its `mesh11sd` ubus object, which is new in mesh11sd 8, so it
-needs mesh11sd 8 or later (for now 8.0.0_beta1-r72, for `auto_config_test` and the running values in status). There was no LuCI app for mesh11sd 7.
+needs mesh11sd 8 or later (for now 8.0.0_beta1-r77, for `auto_config_test`, the running values, `unsaved_config` and path `node_ula` in status). There was no LuCI app for mesh11sd 7.
 
 ## Pages
 
@@ -34,7 +34,9 @@ Services > Mesh11sd has three tabs:
   refreshes), then for each mesh interface its mesh ID, radio, channel,
   active portal and counters, the one-hop peers (peer link state, signal, airtime metric, rates),
   the mesh paths and the stations with the node that serves each one. "Reload settings" calls
-  `config_reload`. Neither reply contains a key.
+  `config_reload`. Neither reply contains a key. Each mesh path destination links to that node's
+  LuCI in a new tab at the `node_ula` mesh11sd reports in status, the same address `mesh11sd
+  connect` prints. Destinations without a ULA are plain text.
 * **Settings** - the options of `config mesh11sd 'setup'` in `/etc/config/mesh11sd`, in General,
   Mesh backhaul, Gate and SSID, and Advanced tabs. Every option is optional: the mesh11sd defaults
   are shown as placeholders and an option is only written when you change it. Keys are password
@@ -54,6 +56,26 @@ Services > Mesh11sd has three tabs:
   `mesh11sd auto_config test`), after a warning that the node's address changes and the page
   stops responding. A reboot undoes the test.
 * **Log** - `mesh11sd read_log`, with Refresh and Follow (re-read every 10 seconds).
+* **Status > Overview** - a Mesh11sd section with the live state: node type, version, auto config,
+  what is not saved to flash, each mesh interface (channel, mesh ID, active peers, active portal
+  and portal ULA), a box per radio in the style of LuCI's own Wireless section but with a green
+  head (type, channel, country, noise, TX power, and each live interface with its SSID or mesh ID,
+  mode and state), and below them a table of the wireless interfaces netifd really runs (SSID or
+  mesh ID, mode, radio, network, up or down). The wireless data is luci-rpc `getWirelessDevices`
+  (network.wireless status with live iwinfo), which luci-base already grants to every session.
+* **Notice on every page** - mesh11sd applies much of its configuration as uncommitted uci changes,
+  so nothing extra is written to flash. LuCI's own pages read only the saved configuration, so its
+  Network and Wireless pages can show access points as disabled, leave out interfaces mesh11sd
+  added, or mark them for deletion. While `unsaved_config` in status lists any package, a header
+  indicator ("Mesh11sd live config") is shown on every page; clicking it opens a popup with the
+  explanation, a button to Services > Mesh11sd and Close. On the Network pages one notice says
+  that the pages show the saved configuration and links to Services > Mesh11sd. It is a
+  preload class (`htdocs/luci-static/resources/preload/mesh11sd.js`), as luci-mod-battstatus uses.
+
+A possible future version: commit the configuration once for the fixed-role node types
+(`portal_detect` 0, 3, 4 and 5), at first configuration and when the mesh11sd config changes, not
+on every boot, so LuCI's own pages show the real state there. Peers that pick their role at run
+time (`portal_detect` 1) would still need the notice.
 
 ## How it works
 
@@ -61,7 +83,8 @@ The app is plain LuCI JavaScript. There is no ucode, Lua, CGI or rpcd plugin: se
 standard `form.Map('mesh11sd')`, and the other pages call the `mesh11sd` ubus object through rpcd
 with `rpc.declare()`. The rpcd ACL
 (`openwrt/luci-app-mesh11sd/root/usr/share/rpcd/acl.d/luci-app-mesh11sd.json`) allows reading
-`status`, `stations` and `version`, the uci config `mesh11sd`, and one command,
+`status`, `stations` and `version`, `iwinfo` `countrylist`
+(the Country list, as LuCI's wireless page), the uci config `mesh11sd`, and one command,
 `/usr/sbin/mesh11sd read_log`; and writing `config_reload`, `auto_config_test`, the uci config
 `mesh11sd`, and `system` `reboot` for Reboot node (the same entry as System > Reboot).
 Nothing can be committed, reverted or restored through the `mesh11sd` ubus object.
@@ -89,6 +112,8 @@ independent. The version shown in the LuCI footer comes from `common.js`.
 openwrt/luci-app-mesh11sd/                     # = applications/luci-app-mesh11sd in openwrt/luci
   Makefile                                     # luci.mk package Makefile, as in the feed
   htdocs/luci-static/resources/view/mesh11sd/  # The views and common.js
+  htdocs/luci-static/resources/view/status/include/65_mesh11sd.js  # Status > Overview section
+  htdocs/luci-static/resources/preload/mesh11sd.js  # Notice on every page while config is unsaved
   root/usr/share/luci/menu.d/                  # Menu entry, Services > Mesh11sd
   root/usr/share/rpcd/acl.d/                   # rpcd ACL
   po/templates/mesh11sd.pot                    # Translation template
