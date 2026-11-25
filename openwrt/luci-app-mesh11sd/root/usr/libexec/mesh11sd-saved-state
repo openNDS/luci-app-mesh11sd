@@ -1,0 +1,41 @@
+#!/bin/sh
+# Whether the flash config still matches the stock copies mesh11sd made
+# before it first ran. Prints "modified" or "stock". Read only.
+
+# Packages the core LuCI pages show. Same names as mesh11sd's
+# /etc/config/<pkg>_mesh11sd_default backups. revert_all also restores
+# mesh11sd and system; those are left out here.
+pkgs="wireless network dhcp firewall"
+
+commit_all=$(uci -q get mesh11sd.setup.commit_all)
+[ -z "$commit_all" ] && commit_all=0
+
+have_default=0
+modified=0
+
+for f in $pkgs; do
+	cur=/etc/config/$f
+	def=/etc/config/${f}_mesh11sd_default
+	if [ -f "$def" ]; then
+		have_default=1
+		if [ ! -f "$cur" ] || ! cmp -s "$cur" "$def"; then
+			modified=1
+		fi
+	fi
+done
+
+# No stock copies to compare: same test as r9, the commit_all flag.
+if [ "$have_default" = 0 ]; then
+	if [ "$commit_all" = 1 ]; then
+		echo modified
+	else
+		echo stock
+	fi
+	exit 0
+fi
+
+if [ "$modified" = 1 ] || [ "$commit_all" = 1 ]; then
+	echo modified
+else
+	echo stock
+fi

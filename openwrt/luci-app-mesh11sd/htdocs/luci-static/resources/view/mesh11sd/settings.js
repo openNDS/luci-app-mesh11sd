@@ -80,7 +80,7 @@ var WHEN = {
 
 return view.extend({
 	load: function() {
-		return Promise.all([ uci.load('mesh11sd'), common.getStatus() ]);
+		return Promise.all([ uci.load('mesh11sd'), common.getStatus(), common.savedState() ]);
 	},
 
 	/*
@@ -255,11 +255,14 @@ return view.extend({
 	},
 
 	/*
-	 * Save live config / Revert saved config: only the relevant button is shown,
-	 * from the saved mesh11sd.setup.commit_all. Hidden while auto_config is 0
-	 * (the mesh11sd CLI refuses both commands) or mesh11sd does not answer.
+	 * Save live config / Revert saved config. Hidden while auto_config is 0
+	 * (the mesh11sd CLI refuses both commands, and mesh11sd is not managing
+	 * the config). Revert is shown when the flash wireless, network, dhcp or
+	 * firewall config differs from mesh11sd's stock copies, or commit_all is
+	 * 1. Save is shown when the flash config still matches those copies.
+	 * If the helper does not answer, the saved commit_all flag is used, as in r9.
 	 */
-	commitAllButtons: function(s, st) {
+	commitAllButtons: function(s, st, saved) {
 		var setup = (st && st.setup) ? st.setup : null;
 		var auto = uci.get('mesh11sd', 'setup', 'auto_config');
 		var committed = uci.get('mesh11sd', 'setup', 'commit_all');
@@ -271,12 +274,16 @@ return view.extend({
 		}
 		auto = (auto != null) ? String(auto) : '0';
 		committed = (committed != null) ? String(committed) : '0';
+		saved = (saved != null) ? String(saved) : '';
+		if (saved != 'modified' && saved != 'stock') {
+			saved = (committed == '1') ? 'modified' : 'stock';
+		}
 
 		if (auto == '0') {
 			return;
 		}
 
-		if (committed == '1') {
+		if (saved == 'modified') {
 			o = s.taboption('general', form.Button, '_revert_all', _('Revert saved config'),
 				_('Drop the configuration previously saved to flash and return to dynamic auto configuration. The node reboots.'));
 			o.inputtitle = _('Revert saved config');
@@ -284,16 +291,17 @@ return view.extend({
 			o.onclick = function() {
 				self.confirmRevertAll();
 			};
-			return;
 		}
 
-		o = s.taboption('general', form.Button, '_commit_all', _('Save live config to flash'),
-			_('Write the live wireless, network, dhcp and firewall configuration to flash and keep the current role. A reboot is required.'));
-		o.inputtitle = _('Save live config to flash');
-		o.inputstyle = 'action';
-		o.onclick = function() {
-			self.confirmCommitAll();
-		};
+		if (saved == 'stock') {
+			o = s.taboption('general', form.Button, '_commit_all', _('Save live config to flash'),
+				_('Write the live wireless, network, dhcp and firewall configuration to flash and keep the current role. A reboot is required.'));
+			o.inputtitle = _('Save live config to flash');
+			o.inputstyle = 'action';
+			o.onclick = function() {
+				self.confirmCommitAll();
+			};
+		}
 	},
 
 	execMessage: function(res, fallback) {
@@ -485,6 +493,7 @@ return view.extend({
 
 	render: function(data) {
 		var st = data[1];
+		var saved = data[2];
 		var reboot = common.restartNeeded(st);
 		var self = this;
 		var tunnel = this.tunnelAddressing(st);
@@ -521,7 +530,7 @@ return view.extend({
 			_('0 off; 1 on, the portal configuration is committed and LuCI can be used; 2 on, everything is committed and the first role is kept.'),
 			[ [ '0', _('0 - off') ], [ '1', _('1 - on') ], [ '2', _('2 - on, commit all') ] ], '0', 'restart');
 
-		this.commitAllButtons(s, st);
+		this.commitAllButtons(s, st, saved);
 
 		if (reboot) {
 			o = s.taboption('general', form.Button, '_reboot', _('Reboot node'),

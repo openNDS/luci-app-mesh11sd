@@ -10,7 +10,8 @@
 			"file": {
 				"/usr/sbin/mesh11sd read_log": [ "exec" ],
 				"/usr/libexec/mesh11sd-commit-all": [ "exec" ],
-				"/usr/libexec/mesh11sd-revert-all": [ "exec" ]
+				"/usr/libexec/mesh11sd-revert-all": [ "exec" ],
+				"/usr/libexec/mesh11sd-saved-state": [ "exec" ]
 			},
 			"uci": [ "mesh11sd" ]
 		},

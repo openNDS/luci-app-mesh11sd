@@ -144,6 +144,19 @@ return baseclass.extend({
 	},
 
 	/*
+	 * Whether the flash wireless, network, dhcp or firewall config differs from the
+	 * stock copies mesh11sd made before it first ran, or commit_all is 1: "modified"
+	 * or "stock". Empty if the helper does not answer.
+	 */
+	savedState: function() {
+		return fs.exec('/usr/libexec/mesh11sd-saved-state', []).then(function(res) {
+			return String((res && res.stdout) || '').trim();
+		}, function() {
+			return '';
+		});
+	},
+
+	/*
 	 * Whether the saved setup has options that wait for a reboot (options mesh11sd reads only
 	 * when it starts), from the status of a running daemon: null when not, else the titles of
 	 * the changed options. A daemon that does not report its running values (started by
