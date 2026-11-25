@@ -254,7 +254,151 @@ return view.extend({
 		});
 	},
 
-		/* the radio to read the country list from: the mesh radio, else radio0 */
+	/*
+	 * Save live config / Revert saved config: only the relevant button is shown,
+	 * from the saved mesh11sd.setup.commit_all. Hidden while auto_config is 0
+	 * (the mesh11sd CLI refuses both commands) or mesh11sd does not answer.
+	 */
+	commitAllButtons: function(s, st) {
+		var setup = (st && st.setup) ? st.setup : null;
+		var auto = uci.get('mesh11sd', 'setup', 'auto_config');
+		var committed = uci.get('mesh11sd', 'setup', 'commit_all');
+		var self = this;
+		var o;
+
+		if (auto == null && setup && setup.auto_config != null) {
+			auto = setup.auto_config;
+		}
+		auto = (auto != null) ? String(auto) : '0';
+		committed = (committed != null) ? String(committed) : '0';
+
+		if (auto == '0') {
+			return;
+		}
+
+		if (committed == '1') {
+			o = s.taboption('general', form.Button, '_revert_all', _('Revert saved config'),
+				_('Drop the configuration previously saved to flash and return to dynamic auto configuration. The node reboots.'));
+			o.inputtitle = _('Revert saved config');
+			o.inputstyle = 'negative';
+			o.onclick = function() {
+				self.confirmRevertAll();
+			};
+			return;
+		}
+
+		o = s.taboption('general', form.Button, '_commit_all', _('Save live config to flash'),
+			_('Write the live wireless, network, dhcp and firewall configuration to flash and keep the current role. A reboot is required.'));
+		o.inputtitle = _('Save live config to flash');
+		o.inputstyle = 'action';
+		o.onclick = function() {
+			self.confirmCommitAll();
+		};
+	},
+
+	execMessage: function(res, fallback) {
+		var t = '';
+
+		if (res) {
+			t = String(res.stderr || '').trim() || String(res.stdout || '').trim();
+		}
+		return t || fallback;
+	},
+
+	confirmCommitAll: function() {
+		var self = this;
+
+		ui.showModal(_('Save live config to flash?'), [
+			E('p', _('This writes the live wireless, network, dhcp and firewall configuration to flash.')),
+			E('p', _('After a reboot, this node keeps its current role. Portal detection will no longer switch the role automatically. To change role later, use Revert saved config first.')),
+			E('p', _('The wan port is left as a normal wan interface, not joined to the lan bridge. If you later plug an upstream router into wan, the portal check can still see it and this node will try to become a portal, and will start serving addresses on the lan.')),
+			E('p', _('A reboot is required for this to take effect.')),
+			E('div', { 'class': 'right' }, [
+				E('button', { 'class': 'btn', 'click': ui.hideModal }, _('Cancel')),
+				' ',
+				E('button', {
+					'class': 'btn cbi-button-action',
+					'click': ui.createHandlerFn(this, function() {
+						return self.runCommitAll();
+					})
+				}, _('Save to flash'))
+			])
+		]);
+	},
+
+	runCommitAll: function() {
+		var self = this;
+
+		return common.commitAll().then(function(res) {
+			if (!res || res.code != 0) {
+				ui.hideModal();
+				ui.addNotification(null, E('p', self.execMessage(res, _('Could not save the live config.'))), 'error');
+				return;
+			}
+			ui.showModal(_('Live config saved'), [
+				E('p', _('The live configuration is now on flash. Reboot the node for this to take effect. Until then, portal detection may still change the role.')),
+				E('div', { 'class': 'right' }, [
+					E('button', { 'class': 'btn', 'click': ui.hideModal }, _('Close')),
+					' ',
+					E('button', {
+						'class': 'btn cbi-button-action',
+						'click': ui.createHandlerFn(self, 'confirmReboot')
+					}, _('Reboot node'))
+				])
+			]);
+		}, function(e) {
+			ui.hideModal();
+			ui.addNotification(null, E('p', _('Could not save the live config: %s').format(e)), 'error');
+		});
+	},
+
+	confirmRevertAll: function() {
+		var self = this;
+
+		ui.showModal(_('Revert saved config?'), [
+			E('p', _('This drops the configuration previously saved to flash and returns to dynamic auto configuration.')),
+			E('p', _('The node will reboot, and this page will stop responding. Reconnect to LuCI at the node\'s address when it is back. If the address has changed, find it with SSH over IPv6 link-local (see "Accessing a node" in the mesh11sd README).')),
+			E('div', { 'class': 'right' }, [
+				E('button', { 'class': 'btn', 'click': ui.hideModal }, _('Cancel')),
+				' ',
+				E('button', {
+					'class': 'btn cbi-button-negative',
+					'click': ui.createHandlerFn(this, function() {
+						return self.runRevertAll();
+					})
+				}, _('Revert and reboot'))
+			])
+		]);
+	},
+
+	runRevertAll: function() {
+		var self = this;
+
+		return common.revertAll().then(function(res) {
+			if (!res || res.code != 0) {
+				ui.hideModal();
+				ui.addNotification(null, E('p', self.execMessage(res, _('Could not revert the saved config.'))), 'error');
+				return;
+			}
+			ui.showModal(_('Rebooting'), [
+				E('p', _('The saved configuration has been dropped. The node is rebooting into dynamic auto configuration. Reconnect to LuCI at the node\'s address when it is back. If the address has changed, find it with SSH over IPv6 link-local.')),
+				E('div', { 'class': 'right' }, [
+					E('button', { 'class': 'btn', 'click': ui.hideModal }, _('Close'))
+				])
+			]);
+		}, function() {
+			/* the node reboots as soon as revert_all finishes, so a dropped connection is expected */
+			ui.showModal(_('Rebooting'), [
+				E('p', _('The node is rebooting into dynamic auto configuration. Reconnect to LuCI at the node\'s address when it is back. If the address has changed, find it with SSH over IPv6 link-local.')),
+				E('div', { 'class': 'right' }, [
+					E('button', { 'class': 'btn', 'click': ui.hideModal }, _('Close'))
+				])
+			]);
+		});
+	},
+
+	/* the radio to read the country list from: the mesh radio, else radio0 */
+
 	countryDevice: function(st) {
 		var m = (st && st.mesh_interfaces) ? st.mesh_interfaces : {};
 		var ifs = Object.keys(m);
@@ -376,6 +520,8 @@ return view.extend({
 		this.list(s, 'general', 'auto_config', _('Auto config'),
 			_('0 off; 1 on, the portal configuration is committed and LuCI can be used; 2 on, everything is committed and the first role is kept.'),
 			[ [ '0', _('0 - off') ], [ '1', _('1 - on') ], [ '2', _('2 - on, commit all') ] ], '0', 'restart');
+
+		this.commitAllButtons(s, st);
 
 		if (reboot) {
 			o = s.taboption('general', form.Button, '_reboot', _('Reboot node'),

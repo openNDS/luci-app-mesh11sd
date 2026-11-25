@@ -55,6 +55,12 @@ Services > Mesh11sd has three tabs:
   starts the uncommitted auto config test (`ubus call mesh11sd auto_config_test`, as
   `mesh11sd auto_config test`), after a warning that the node's address changes and the page
   stops responding. A reboot undoes the test.
+  With auto config on, the General tab also offers "Save live config to flash" or "Revert saved
+  config", depending on the saved `mesh11sd.setup.commit_all`. Each sits behind a confirm
+  dialog. Save writes the live wireless, network, dhcp and firewall configuration to flash
+  (`mesh11sd commit_all commit silent`); a reboot is then required, after which portal
+  detection no longer switches the role. Revert drops that saved configuration and returns to
+  dynamic auto configuration (`mesh11sd revert_all revert`); the node reboots.
 * **Log** - `mesh11sd read_log`, with Refresh and Follow (re-read every 10 seconds).
 * **Status > Overview** - a Mesh11sd section with the live state: node type, version, auto config,
   what is not saved to flash, each mesh interface (channel, mesh ID, active peers, active portal
@@ -87,10 +93,13 @@ with `rpc.declare()`. The rpcd ACL
 (`openwrt/luci-app-mesh11sd/root/usr/share/rpcd/acl.d/luci-app-mesh11sd.json`) allows reading
 `status`, `stations` and `version`, `iwinfo` `countrylist`
 (the Country list, as LuCI's wireless page) and `assoclist` (Overview mesh-point signal),
-the uci config `mesh11sd`, and one command,
-`/usr/sbin/mesh11sd read_log`; and writing `config_reload`, `auto_config_test`, the uci config
+the uci config `mesh11sd`, and the commands
+`/usr/sbin/mesh11sd read_log`, `/usr/libexec/mesh11sd-commit-all` and
+`/usr/libexec/mesh11sd-revert-all`; and writing `config_reload`, `auto_config_test`, the uci config
 `mesh11sd`, and `system` `reboot` for Reboot node (the same entry as System > Reboot).
-Nothing can be committed, reverted or restored through the `mesh11sd` ubus object.
+The helpers run the mesh11sd CLI after the Settings confirm dialog (commit uses the existing
+`silent` form; revert answers the CLI yes/no prompt). Nothing is committed or reverted through
+the `mesh11sd` ubus object.
 
 ## Building
 
@@ -119,6 +128,7 @@ openwrt/luci-app-mesh11sd/                     # = applications/luci-app-mesh11s
   htdocs/luci-static/resources/preload/mesh11sd.js  # Notice on every page while config is unsaved
   root/usr/share/luci/menu.d/                  # Menu entry, Services > Mesh11sd
   root/usr/share/rpcd/acl.d/                   # rpcd ACL
+  root/usr/libexec/                            # commit_all / revert_all helpers
   po/templates/mesh11sd.pot                    # Translation template
 tools/feed-sync.sh                             # Copy to / check against an openwrt/luci checkout
 ```

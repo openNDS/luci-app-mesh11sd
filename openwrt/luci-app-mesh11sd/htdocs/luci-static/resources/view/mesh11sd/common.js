@@ -1,6 +1,7 @@
 'use strict';
 'require baseclass';
 'require rpc';
+'require fs';
 'require dom';
 
 /*
@@ -130,6 +131,16 @@ return baseclass.extend({
 	/* reboot the node */
 	reboot: function() {
 		return callReboot();
+	},
+
+	/* write live wireless/network/dhcp/firewall to flash (mesh11sd commit_all commit silent) */
+	commitAll: function() {
+		return fs.exec('/usr/libexec/mesh11sd-commit-all', []);
+	},
+
+	/* drop the committed config and reboot (mesh11sd revert_all revert, after the dialog) */
+	revertAll: function() {
+		return fs.exec('/usr/libexec/mesh11sd-revert-all', []);
 	},
 
 	/*

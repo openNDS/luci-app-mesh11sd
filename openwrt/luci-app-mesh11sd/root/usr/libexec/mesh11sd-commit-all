@@ -1,0 +1,3 @@
+#!/bin/sh
+# LuCI has already confirmed. Use the existing non-interactive form.
+exec /usr/sbin/mesh11sd commit_all commit silent

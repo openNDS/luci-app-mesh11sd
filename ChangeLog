@@ -17,6 +17,8 @@ luci-app-mesh11sd (1.0.0beta)
   * Change - needs mesh11sd 8.0.0_beta1-r77 for path node_ula [bluewavenet]
   * Add - Status > Overview: a signal icon on each interface in the radio boxes, as LuCI's own Wireless section: quality from iwinfo for access points; for a mesh point, the strongest peer from the assoclist [bluewavenet]
   * Add - rpcd ACL: read iwinfo assoclist [bluewavenet]
+  * Add - Settings, General: Save live config to flash (commit_all) and Revert saved config (revert_all), each behind a confirm dialog; only the relevant button is shown [bluewavenet]
+  * Add - rpcd ACL: exec /usr/libexec/mesh11sd-commit-all and mesh11sd-revert-all, which run the mesh11sd CLI after the dialog has confirmed [bluewavenet]
   * Note - possible future version: commit the fixed-role configuration once (portal_detect 0, 3, 4, 5) so LuCI's own pages show the real state [bluewavenet]
 
  -- Rob White <rob@blue-wave.net>  unreleased

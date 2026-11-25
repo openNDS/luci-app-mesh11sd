@@ -1,0 +1,3 @@
+#!/bin/sh
+# LuCI has already confirmed. The CLI still asks yes/no and has no silent form.
+printf 'yes\n' | exec /usr/sbin/mesh11sd revert_all revert
