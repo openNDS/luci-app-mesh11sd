@@ -168,8 +168,8 @@ msgid ""
 "1 to keep the configuration."
 msgstr ""
 
-#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:76
-#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:77
+#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:126
+#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:127
 msgid "Access point"
 msgstr ""
 
@@ -177,12 +177,12 @@ msgstr ""
 msgid "Access points"
 msgstr ""
 
-#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:119
+#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:169
 msgid "Active peers"
 msgstr ""
 
 #: htdocs/luci-static/resources/view/mesh11sd/status.js:49
-#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:119
+#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:169
 msgid "Active portal"
 msgstr ""
 
@@ -220,7 +220,7 @@ msgstr ""
 #: htdocs/luci-static/resources/view/mesh11sd/common.js:60
 #: htdocs/luci-static/resources/view/mesh11sd/settings.js:322
 #: htdocs/luci-static/resources/view/mesh11sd/status.js:33
-#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:116
+#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:166
 msgid "Auto config"
 msgstr ""
 
@@ -243,7 +243,8 @@ msgid "Cancel"
 msgstr ""
 
 #: htdocs/luci-static/resources/view/mesh11sd/status.js:47
-#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:119
+#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:102
+#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:169
 msgid "Channel"
 msgstr ""
 
@@ -255,8 +256,8 @@ msgstr ""
 msgid "Check interval"
 msgstr ""
 
-#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:76
-#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:77
+#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:126
+#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:127
 msgid "Client"
 msgstr ""
 
@@ -311,6 +312,10 @@ msgstr ""
 
 #: htdocs/luci-static/resources/view/mesh11sd/settings.js:351
 msgid "Country"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:103
+msgid "Country Code"
 msgstr ""
 
 #: htdocs/luci-static/resources/view/mesh11sd/status.js:39
@@ -393,6 +398,10 @@ msgstr ""
 msgid "Forwarding"
 msgstr ""
 
+#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:75
+msgid "GHz"
+msgstr ""
+
 #: htdocs/luci-static/resources/view/mesh11sd/settings.js:314
 msgid "Gate and SSID"
 msgstr ""
@@ -432,7 +441,7 @@ msgstr ""
 msgid "Inactive"
 msgstr ""
 
-#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:126
+#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:177
 msgid "Interface"
 msgstr ""
 
@@ -506,7 +515,7 @@ msgid "Maximum log entries"
 msgstr ""
 
 #: htdocs/luci-static/resources/view/mesh11sd/status.js:45
-#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:119
+#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:169
 msgid "Mesh ID"
 msgstr ""
 
@@ -536,7 +545,7 @@ msgstr ""
 msgid "Mesh gate (access points)"
 msgstr ""
 
-#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:119
+#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:169
 msgid "Mesh interface"
 msgstr ""
 
@@ -569,8 +578,8 @@ msgstr ""
 msgid "Mesh peer"
 msgstr ""
 
-#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:76
-#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:77
+#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:126
+#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:127
 msgid "Mesh point"
 msgstr ""
 
@@ -606,7 +615,7 @@ msgid ""
 "interval."
 msgstr ""
 
-#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:126
+#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:177
 msgid "Mode"
 msgstr ""
 
@@ -627,7 +636,7 @@ msgstr ""
 msgid "NAT66"
 msgstr ""
 
-#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:126
+#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:177
 msgid "Network"
 msgstr ""
 
@@ -644,7 +653,7 @@ msgid "No forwarding between the mesh or lan and the tunnel."
 msgstr ""
 
 #: htdocs/luci-static/resources/view/mesh11sd/status.js:242
-#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:125
+#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:175
 msgid "No mesh interface is up."
 msgstr ""
 
@@ -660,7 +669,7 @@ msgstr ""
 msgid "No stations."
 msgstr ""
 
-#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:127
+#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:178
 msgid "No wireless interfaces."
 msgstr ""
 
@@ -673,8 +682,12 @@ msgid "Node mobility level"
 msgstr ""
 
 #: htdocs/luci-static/resources/view/mesh11sd/status.js:30
-#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:114
+#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:164
 msgid "Node type"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:104
+msgid "Noise"
 msgstr ""
 
 #: htdocs/luci-static/resources/view/mesh11sd/settings.js:97
@@ -685,7 +698,7 @@ msgstr ""
 msgid "Not available: mesh11sd is not running."
 msgstr ""
 
-#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:117
+#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:167
 msgid "Not saved to flash"
 msgstr ""
 
@@ -697,7 +710,7 @@ msgstr ""
 
 #: htdocs/luci-static/resources/preload/mesh11sd.js:46
 #: htdocs/luci-static/resources/preload/mesh11sd.js:65
-#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:106
+#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:156
 msgid "Open Services > Mesh11sd"
 msgstr ""
 
@@ -740,7 +753,7 @@ msgid ""
 "nodes."
 msgstr ""
 
-#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:119
+#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:169
 msgid "Portal ULA"
 msgstr ""
 
@@ -793,7 +806,7 @@ msgid "RSSI threshold"
 msgstr ""
 
 #: htdocs/luci-static/resources/view/mesh11sd/status.js:46
-#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:126
+#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:177
 msgid "Radio"
 msgstr ""
 
@@ -874,7 +887,7 @@ msgstr ""
 msgid "SSID"
 msgstr ""
 
-#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:126
+#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:177
 msgid "SSID / Mesh ID"
 msgstr ""
 
@@ -959,7 +972,7 @@ msgstr ""
 msgid "Spaces are removed. Default VTunnel."
 msgstr ""
 
-#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:126
+#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:177
 msgid "State"
 msgstr ""
 
@@ -986,6 +999,10 @@ msgstr ""
 
 #: htdocs/luci-static/resources/view/mesh11sd/settings.js:516
 msgid "Stop on error"
+msgstr ""
+
+#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:105
+msgid "TX Power"
 msgstr ""
 
 #: htdocs/luci-static/resources/view/mesh11sd/settings.js:31
@@ -1126,6 +1143,10 @@ msgstr ""
 msgid "Tunnel path cost"
 msgstr ""
 
+#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:101
+msgid "Type"
+msgstr ""
+
 #: htdocs/luci-static/resources/view/mesh11sd/settings.js:432
 msgid ""
 "Up to 22 characters with the suffix, 30 without. Spaces are removed. Default "
@@ -1151,7 +1172,7 @@ msgid "VXLAN tunnel"
 msgstr ""
 
 #: htdocs/luci-static/resources/view/mesh11sd/status.js:28
-#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:115
+#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:165
 msgid "Version"
 msgstr ""
 
@@ -1197,6 +1218,11 @@ msgstr ""
 msgid "confidence test running"
 msgstr ""
 
+#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:104
+#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:105
+msgid "dBm"
+msgstr ""
+
 #: htdocs/luci-static/resources/view/mesh11sd/settings.js:410
 msgid "dBm, within the regulatory limit. Empty leaves the driver setting."
 msgstr ""
@@ -1217,7 +1243,7 @@ msgstr ""
 msgid "derived: %s"
 msgstr ""
 
-#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:94
+#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:144
 msgid "down"
 msgstr ""
 
@@ -1237,7 +1263,7 @@ msgstr ""
 msgid "mesh11sd %s"
 msgstr ""
 
-#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:109
+#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:159
 msgid "mesh11sd does not answer."
 msgstr ""
 
@@ -1260,7 +1286,7 @@ msgstr ""
 msgid "not set on this node"
 msgstr ""
 
-#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:117
+#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:167
 msgid "nothing"
 msgstr ""
 
@@ -1297,7 +1323,8 @@ msgstr ""
 msgid "unknown"
 msgstr ""
 
-#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:94
+#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:110
+#: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:144
 msgid "up"
 msgstr ""
 

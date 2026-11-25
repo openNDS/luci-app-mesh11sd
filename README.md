@@ -56,9 +56,11 @@ Services > Mesh11sd has three tabs:
 * **Log** - `mesh11sd read_log`, with Refresh and Follow (re-read every 10 seconds).
 * **Status > Overview** - a Mesh11sd section with the live state: node type, version, auto config,
   what is not saved to flash, each mesh interface (channel, mesh ID, active peers, active portal
-  and portal ULA), and the wireless interfaces netifd really runs (SSID or mesh ID, mode, radio,
-  network, up or down), from luci-rpc `getWirelessDevices` (network.wireless status with the
-  live iwinfo mode and SSID), which luci-base already grants to every session.
+  and portal ULA), a box per radio in the style of LuCI's own Wireless section but with a green
+  head (type, channel, country, noise, TX power, and each live interface with its SSID or mesh ID,
+  mode and state), and below them a table of the wireless interfaces netifd really runs (SSID or
+  mesh ID, mode, radio, network, up or down). The wireless data is luci-rpc `getWirelessDevices`
+  (network.wireless status with live iwinfo), which luci-base already grants to every session.
 * **Notice on every page** - mesh11sd applies much of its configuration as uncommitted uci changes,
   so nothing extra is written to flash. LuCI's own pages read only the saved configuration, so its
   Network and Wireless pages can show access points as disabled, leave out interfaces mesh11sd

@@ -67,6 +67,56 @@ return baseclass.extend({
 		return { '0': _('off'), '1': _('on'), '2': _('on, commit all') }[String(v)] || common.text(v);
 	},
 
+	/* "36 (5.180 GHz)" from iwinfo channel and frequency (MHz) */
+	channelText: function(iw) {
+		if (!iw.channel) {
+			return null;
+		}
+		return iw.frequency ? '%d (%.3f %s)'.format(iw.channel, iw.frequency / 1000, _('GHz')) : String(iw.channel);
+	},
+
+	/*
+	 * One box per radio, in the markup of LuCI's own Wireless section (ifacebox), with a green
+	 * head while the radio is up: the radio's type, channel, country, noise and TX power from
+	 * its iwinfo, then each interface netifd runs on it with its live SSID or mesh ID, mode
+	 * and state.
+	 */
+	radioBoxes: function(wifi) {
+		var self = this;
+		var boxes = E('div', { 'class': 'network-status-table' });
+		var green = '--zone-color-rgb:46,160,67; background:rgb(46,160,67); color:#fff';
+
+		Object.keys(wifi || {}).sort().forEach(function(radio) {
+			var r = wifi[radio] || {};
+			var iw = r.iwinfo || {};
+			var c = r.config || {};
+			var hw = (iw.hardware && iw.hardware.name) ? iw.hardware.name : c.type;
+			var ifaces = self.wifiRows({ [radio]: r });
+
+			boxes.appendChild(E('div', { 'class': 'ifacebox' }, [
+				E('div', { 'class': 'ifacebox-head center', 'style': r.up ? green : null },
+					E('strong', radio)),
+				E('div', { 'class': 'ifacebox-body left' }, [
+					L.itemlist(E('span'), [
+						_('Type'), hw ? String(hw).replace(/^Generic | Wireless Controller .+$/g, '') : null,
+						_('Channel'), self.channelText(iw),
+						_('Country Code'), iw.country || c.country || null,
+						_('Noise'), iw.noise ? '%d %s'.format(iw.noise, _('dBm')) : null,
+						_('TX Power'), iw.txpower ? '%d %s'.format(iw.txpower, _('dBm')) : null
+					]),
+					E('div', {}, ifaces.map(function(i) {
+						return E('div', { 'class': 'ifacebadge', 'style': 'display:block; margin-top:.25em' }, [
+							E('strong', i[0]), ' ', i[1], ' ',
+							E('span', { 'style': 'font-weight:bold; color:' + (i[5] == _('up') ? 'rgb(46,160,67)' : 'grey') }, i[5])
+						]);
+					}))
+				])
+			]));
+		});
+
+		return boxes.firstElementChild ? boxes : E([]);
+	},
+
 	/*
 	 * The wireless interfaces netifd runs: [ ssid or mesh id, mode, interface, radio, network,
 	 * state ]. The live iwinfo mode and SSID where present, else the configuration's.
@@ -123,6 +173,7 @@ return baseclass.extend({
 					return [ ifname, common.text(m.channel), common.text(m.mesh_id), common.text(m.active_peers),
 						common.text(m.active_portal), common.text(m.portal_ula) ];
 				}), _('No mesh interface is up.')),
+			this.radioBoxes(data[1]),
 			this.table([ _('SSID / Mesh ID'), _('Mode'), _('Interface'), _('Radio'), _('Network'), _('State') ],
 				this.wifiRows(data[1]), _('No wireless interfaces.')),
 			E('p', link)
