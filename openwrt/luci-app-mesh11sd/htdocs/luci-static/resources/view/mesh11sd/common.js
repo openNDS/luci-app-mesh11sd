@@ -1,6 +1,7 @@
 'use strict';
 'require baseclass';
 'require rpc';
+'require fs';
 'require dom';
 
 /*
@@ -130,6 +131,31 @@ return baseclass.extend({
 	/* reboot the node */
 	reboot: function() {
 		return callReboot();
+	},
+
+	/* write live wireless/network/dhcp/firewall to flash (mesh11sd commit_all commit silent) */
+	commitAll: function() {
+		return fs.exec('/usr/libexec/mesh11sd-commit-all', []);
+	},
+
+	/* restore stock wireless/network/dhcp/firewall/system and reboot
+	 * (mesh11sd restore_all restore, after the dialog). mesh11sd's own
+	 * config is kept; the helper clears commit_all first if it was set. */
+	revertAll: function() {
+		return fs.exec('/usr/libexec/mesh11sd-restore-all', []);
+	},
+
+	/*
+	 * Whether the flash wireless, network, dhcp, firewall or system config differs
+	 * from the stock copies mesh11sd made before it first ran, or commit_all is 1:
+	 * "modified" or "stock". Empty if the helper does not answer.
+	 */
+	savedState: function() {
+		return fs.exec('/usr/libexec/mesh11sd-saved-state', []).then(function(res) {
+			return String((res && res.stdout) || '').trim();
+		}, function() {
+			return '';
+		});
 	},
 
 	/*

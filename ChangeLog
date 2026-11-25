@@ -15,6 +15,16 @@ luci-app-mesh11sd (1.0.0beta)
   * Change - Status: mesh path destinations link to the node's LuCI at the node_ula from mesh11sd status (the same address mesh11sd connect prints), in a new tab; without a ULA the destination stays plain text. apmond is not used [bluewavenet]
   * Change - rpcd ACL: drop apmond status [bluewavenet]
   * Change - needs mesh11sd 8.0.0_beta1-r77 for path node_ula [bluewavenet]
+  * Add - Status > Overview: a signal icon on each interface in the radio boxes, as LuCI's own Wireless section: quality from iwinfo for access points; for a mesh point, the strongest peer from the assoclist [bluewavenet]
+  * Add - rpcd ACL: read iwinfo assoclist [bluewavenet]
+  * Add - Settings, General: Save live config to flash (commit_all) and Revert saved config (revert_all), each behind a confirm dialog; only the relevant button is shown [bluewavenet]
+  * Add - rpcd ACL: exec /usr/libexec/mesh11sd-commit-all and mesh11sd-revert-all, which run the mesh11sd CLI after the dialog has confirmed [bluewavenet]
+  * Change - Settings, General: Revert saved config is shown when the flash wireless, network, dhcp or firewall configuration differs from the stock copies mesh11sd made before it first ran, not only when commit_all is 1; Save live config to flash is shown when those files still match [bluewavenet]
+  * Add - rpcd ACL: exec /usr/libexec/mesh11sd-saved-state, a read-only helper that compares those files [bluewavenet]
+  * Fix - Settings, General: Revert saved config runs mesh11sd restore_all, which keeps mesh11sd's own settings so auto configuration rebuilds the live config after the reboot, instead of revert_all, which restored the stock mesh11sd config and could leave auto_config at 0 [bluewavenet]
+  * Change - rpcd ACL: exec /usr/libexec/mesh11sd-restore-all in place of mesh11sd-revert-all; the helper clears commit_all first if it was set [bluewavenet]
+  * Change - the saved-state helper also compares the system config, as restore_all restores it [bluewavenet]
+  * Fix - Settings: do not write Mesh ID seed, Mesh key seed, or other text and password fields that the user did not edit, and turn off browser autocomplete on them, so a password manager cannot commit the LuCI user name and a saved password as auto_mesh_id and auto_mesh_key [bluewavenet]
   * Note - possible future version: commit the fixed-role configuration once (portal_detect 0, 3, 4, 5) so LuCI's own pages show the real state [bluewavenet]
 
  -- Rob White <rob@blue-wave.net>  unreleased

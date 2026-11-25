@@ -1,0 +1,9 @@
+#!/bin/sh
+# LuCI has already confirmed. The CLI still asks yes/no and has no silent form.
+# restore_all keeps /etc/config/mesh11sd, including commit_all if it was set,
+# so clear that flag first. Auto config and the other mesh11sd options stay.
+if [ -n "$(uci -q get mesh11sd.setup.commit_all)" ]; then
+	uci -q delete mesh11sd.setup.commit_all
+	uci commit mesh11sd
+fi
+printf 'yes\n' | exec /usr/sbin/mesh11sd restore_all restore
