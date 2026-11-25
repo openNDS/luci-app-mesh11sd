@@ -8,14 +8,16 @@
  *
  * LuCI's own Wireless section reads the saved configuration, which does not have what
  * mesh11sd applied without writing flash. This reads the running state instead:
- * "ubus call mesh11sd status" for the node and its mesh interfaces, and
- * "ubus call network.wireless status" for the access points and mesh interfaces that are
- * really configured, with their SSIDs. No keys are read or shown.
+ * "ubus call mesh11sd status" for the node and its mesh interfaces, and luci-rpc
+ * getWirelessDevices for the wireless interfaces netifd runs. getWirelessDevices is
+ * network.wireless status per radio, with each interface's iwinfo (live mode and SSID) added;
+ * luci-base already grants it to every LuCI session, so no ACL entry of our own is needed.
+ * No keys are shown.
  */
 
-var callWirelessStatus = rpc.declare({
-	object: 'network.wireless',
-	method: 'status',
+var callWirelessDevices = rpc.declare({
+	object: 'luci-rpc',
+	method: 'getWirelessDevices',
 	expect: { '': {} }
 });
 
@@ -25,7 +27,7 @@ return baseclass.extend({
 	load: function() {
 		return Promise.all([
 			common.getStatus(),
-			L.resolveDefault(callWirelessStatus(), {})
+			L.resolveDefault(callWirelessDevices(), {})
 		]);
 	},
 
@@ -65,21 +67,27 @@ return baseclass.extend({
 		return { '0': _('off'), '1': _('on'), '2': _('on, commit all') }[String(v)] || common.text(v);
 	},
 
-	/* the wireless interfaces netifd runs: [ ssid or mesh id, mode, interface, radio, network, state ] */
+	/*
+	 * The wireless interfaces netifd runs: [ ssid or mesh id, mode, interface, radio, network,
+	 * state ]. The live iwinfo mode and SSID where present, else the configuration's.
+	 */
 	wifiRows: function(wifi) {
 		var rows = [];
+		var modes = { 'ap': _('Access point'), 'mesh': _('Mesh point'), 'sta': _('Client') };
+		var iwModes = { 'Master': _('Access point'), 'Mesh Point': _('Mesh point'), 'Client': _('Client') };
 
 		Object.keys(wifi || {}).sort().forEach(function(radio) {
 			var r = wifi[radio] || {};
 
 			(r.interfaces || []).forEach(function(i) {
 				var c = i.config || {};
+				var iw = i.iwinfo || {};
 				var up = r.up && i.ifname && !c.disabled;
-				var mode = { 'ap': _('Access point'), 'mesh': _('Mesh point'), 'sta': _('Client') }[c.mode] || common.text(c.mode);
+				var ssid = iw.ssid || (c.mode == 'mesh' ? c.mesh_id : c.ssid);
 
 				rows.push([
-					common.text(c.mode == 'mesh' ? c.mesh_id : c.ssid),
-					mode,
+					common.text(ssid),
+					iwModes[iw.mode] || iw.mode || modes[c.mode] || common.text(c.mode),
 					common.text(i.ifname),
 					radio,
 					common.text(Array.isArray(c.network) ? c.network.join(' ') : c.network),

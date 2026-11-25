@@ -57,7 +57,8 @@ Services > Mesh11sd has three tabs:
 * **Status > Overview** - a Mesh11sd section with the live state: node type, version, auto config,
   what is not saved to flash, each mesh interface (channel, mesh ID, active peers, active portal
   and portal ULA), and the wireless interfaces netifd really runs (SSID or mesh ID, mode, radio,
-  network, up or down), from `ubus call network.wireless status`.
+  network, up or down), from luci-rpc `getWirelessDevices` (network.wireless status with the
+  live iwinfo mode and SSID), which luci-base already grants to every session.
 * **Notice on every page** - mesh11sd applies much of its configuration as uncommitted uci changes,
   so nothing extra is written to flash. LuCI's own pages read only the saved configuration, so its
   Network and Wireless pages can show access points as disabled, leave out interfaces mesh11sd
@@ -77,8 +78,7 @@ The app is plain LuCI JavaScript. There is no ucode, Lua, CGI or rpcd plugin: se
 standard `form.Map('mesh11sd')`, and the other pages call the `mesh11sd` ubus object through rpcd
 with `rpc.declare()`. The rpcd ACL
 (`openwrt/luci-app-mesh11sd/root/usr/share/rpcd/acl.d/luci-app-mesh11sd.json`) allows reading
-`status`, `stations` and `version`, `network.wireless` `status` (for the Overview section), the
-uci config `mesh11sd`, and one command,
+`status`, `stations` and `version`, the uci config `mesh11sd`, and one command,
 `/usr/sbin/mesh11sd read_log`; and writing `config_reload`, `auto_config_test`, the uci config
 `mesh11sd`, and `system` `reboot` for Reboot node (the same entry as System > Reboot).
 Nothing can be committed, reverted or restored through the `mesh11sd` ubus object.
