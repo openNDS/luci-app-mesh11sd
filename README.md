@@ -63,8 +63,9 @@ Services > Mesh11sd has three tabs:
   so nothing extra is written to flash. LuCI's own pages read only the saved configuration, so its
   Network and Wireless pages can show access points as disabled, leave out interfaces mesh11sd
   added, or mark them for deletion. While `unsaved_config` in status lists any package, a header
-  indicator ("Live config not saved") is shown on every page, and on the Network pages a notice
-  says that the pages show the saved configuration and links to Services > Mesh11sd. It is a
+  indicator ("Mesh11sd live config") is shown on every page; clicking it opens a popup with the
+  explanation, a button to Services > Mesh11sd and Close. On the Network pages one notice says
+  that the pages show the saved configuration and links to Services > Mesh11sd. It is a
   preload class (`htdocs/luci-static/resources/preload/mesh11sd.js`), as luci-mod-battstatus uses.
 
 A possible future version: commit the configuration once for the fixed-role node types

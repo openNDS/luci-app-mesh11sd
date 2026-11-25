@@ -260,6 +260,7 @@ msgstr ""
 msgid "Client"
 msgstr ""
 
+#: htdocs/luci-static/resources/preload/mesh11sd.js:57
 #: htdocs/luci-static/resources/view/mesh11sd/settings.js:162
 #: htdocs/luci-static/resources/view/mesh11sd/settings.js:202
 msgid "Close"
@@ -477,7 +478,7 @@ msgid "Lines kept in the mesh11sd log. Default 500."
 msgstr ""
 
 #: htdocs/luci-static/resources/preload/mesh11sd.js:54
-msgid "Live config not saved"
+msgid "Live configuration not saved"
 msgstr ""
 
 #: root/usr/share/luci/menu.d/luci-app-mesh11sd.json:35
@@ -595,6 +596,10 @@ msgstr ""
 msgid "Mesh11sd Status"
 msgstr ""
 
+#: htdocs/luci-static/resources/preload/mesh11sd.js:82
+msgid "Mesh11sd live config"
+msgstr ""
+
 #: htdocs/luci-static/resources/view/mesh11sd/settings.js:493
 msgid ""
 "Minimum seconds between peer channel scans. Default 8/3 of the check "
@@ -690,7 +695,8 @@ msgid ""
 "the mesh11sd log only."
 msgstr ""
 
-#: htdocs/luci-static/resources/preload/mesh11sd.js:38
+#: htdocs/luci-static/resources/preload/mesh11sd.js:46
+#: htdocs/luci-static/resources/preload/mesh11sd.js:65
 #: htdocs/luci-static/resources/view/status/include/65_mesh11sd.js:106
 msgid "Open Services > Mesh11sd"
 msgstr ""
@@ -1235,7 +1241,7 @@ msgstr ""
 msgid "mesh11sd does not answer."
 msgstr ""
 
-#: htdocs/luci-static/resources/preload/mesh11sd.js:32
+#: htdocs/luci-static/resources/preload/mesh11sd.js:34
 msgid ""
 "mesh11sd is running a live configuration that is not saved to flash. The "
 "Network and Wireless pages show the saved configuration; see Services > "
