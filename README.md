@@ -56,14 +56,17 @@ Services > Mesh11sd has three tabs:
   `mesh11sd auto_config test`), after a warning that the node's address changes and the page
   stops responding. A reboot undoes the test.
   With auto config on, the General tab also offers "Save live config to flash" and "Revert saved
-  config". Revert is shown when the flash wireless, network, dhcp, firewall or system
-  configuration differs from the stock copies mesh11sd made before it first ran
-  (`/etc/config/<pkg>_mesh11sd_default`), or when `mesh11sd.setup.commit_all` is 1. Save is shown
-  when those files still match the stock copies. Each sits behind a confirm dialog. Save writes
+  config". With auto config 1, mesh11sd commits its own portal configuration and keeps a copy
+  of each file (`/etc/config/<pkg>_mesh11sd_portal`), so Revert is shown when the flash
+  wireless, network, dhcp, firewall or system configuration differs from those copies, meaning
+  something else has committed changes. If there are no portal copies, the comparison is with
+  the stock copies mesh11sd made before it first ran (`/etc/config/<pkg>_mesh11sd_default`).
+  Revert is also shown when `mesh11sd.setup.commit_all` is 1. Save is shown when the files still
+  match. Each sits behind a confirm dialog. Save writes
   the live wireless, network, dhcp and firewall configuration to flash
   (`mesh11sd commit_all commit silent`); a reboot is then required, after which portal detection
   no longer switches the role. Revert restores the wireless, network, dhcp, firewall and system
-  configuration from those stock copies (`mesh11sd restore_all restore`) and returns to dynamic
+  configuration from the stock copies (`mesh11sd restore_all restore`) and returns to dynamic
   auto configuration; mesh11sd's own settings are kept, so auto configuration rebuilds the live
   config after the reboot. The node reboots. Both are hidden while auto config is off.
 * **Log** - `mesh11sd read_log`, with Refresh and Follow (re-read every 10 seconds).
@@ -106,8 +109,8 @@ the uci config `mesh11sd`, and the commands
 The commit and restore helpers run the mesh11sd CLI after the Settings confirm dialog (commit uses the existing
 `silent` form; restore answers the CLI yes/no prompt, and clears `commit_all` first if it was
 set, so that flag does not remain in the kept mesh11sd config). The saved-state helper is read only: it
-compares the flash wireless, network, dhcp, firewall and system files with mesh11sd's stock copies and
-prints `modified` or `stock`. Nothing is committed or restored through
+compares the flash wireless, network, dhcp, firewall and system files with mesh11sd's portal copies
+(or its stock copies if there are none) and prints `modified` or `stock`. Nothing is committed or restored through
 the `mesh11sd` ubus object.
 
 ## Building

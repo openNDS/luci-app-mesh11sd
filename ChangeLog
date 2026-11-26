@@ -25,6 +25,7 @@ luci-app-mesh11sd (1.0.0beta)
   * Change - rpcd ACL: exec /usr/libexec/mesh11sd-restore-all in place of mesh11sd-revert-all; the helper clears commit_all first if it was set [bluewavenet]
   * Change - the saved-state helper also compares the system config, as restore_all restores it [bluewavenet]
   * Fix - Settings: do not write Mesh ID seed, Mesh key seed, or other text and password fields that the user did not edit, and turn off browser autocomplete on them, so a password manager cannot commit the LuCI user name and a saved password as auto_mesh_id and auto_mesh_key [bluewavenet]
+  * Fix - Settings: Revert saved config was shown on every auto config node, because mesh11sd commits its own portal configuration; the saved-state helper now compares the flash config with the portal copies, and with the stock copies only when there are no portal copies [bluewavenet]
   * Note - possible future version: commit the fixed-role configuration once (portal_detect 0, 3, 4, 5) so LuCI's own pages show the real state [bluewavenet]
 
  -- Rob White <rob@blue-wave.net>  unreleased
