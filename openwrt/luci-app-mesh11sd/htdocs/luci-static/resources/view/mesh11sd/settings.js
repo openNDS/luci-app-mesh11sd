@@ -255,17 +255,25 @@ return view.extend({
 	},
 
 	/*
-	 * Save live config / Revert saved config. Hidden while auto_config is 0
+	 * Lock current role / Revert saved config. Hidden while auto_config is 0
 	 * (the mesh11sd CLI refuses both commands, and mesh11sd is not managing
 	 * the config). Revert is shown when the flash wireless, network, dhcp,
 	 * firewall or system config differs from mesh11sd's portal copies (or
 	 * its stock copies if there are no portal copies), or commit_all is 1.
-	 * Save is shown when the flash config still matches those copies. If the helper does not answer, the saved commit_all flag
-	 * is used, as in r9.
+	 * If the helper does not answer, the saved commit_all flag is used, as
+	 * in r9.
+	 *
+	 * Lock (commit_all) is shown only with auto config 1 and portal detect 1,
+	 * while the flash config still matches the copies and no reboot is
+	 * pending. Everywhere else it does nothing useful: mesh11sd 8 r81 and
+	 * later already commit the configuration of a fixed role (portal detect
+	 * 0, 3, 4 and 5), and auto config 2 runs commit_all by itself. While a
+	 * reboot is pending, Reboot node is the only action offered.
 	 */
-	commitAllButtons: function(s, st, saved) {
+	commitAllButtons: function(s, st, saved, reboot) {
 		var setup = (st && st.setup) ? st.setup : null;
 		var auto = uci.get('mesh11sd', 'setup', 'auto_config');
+		var detect = uci.get('mesh11sd', 'setup', 'portal_detect');
 		var committed = uci.get('mesh11sd', 'setup', 'commit_all');
 		var self = this;
 		var o;
@@ -274,6 +282,10 @@ return view.extend({
 			auto = setup.auto_config;
 		}
 		auto = (auto != null) ? String(auto) : '0';
+		detect = (detect != null) ? String(detect) : '1';
+		if (detect == '2') {
+			detect = '1';
+		}
 		committed = (committed != null) ? String(committed) : '0';
 		saved = (saved != null) ? String(saved) : '';
 		if (saved != 'modified' && saved != 'stock') {
@@ -294,10 +306,10 @@ return view.extend({
 			};
 		}
 
-		if (saved == 'stock') {
-			o = s.taboption('general', form.Button, '_commit_all', _('Save live config to flash'),
-				_('Write the live wireless, network, dhcp and firewall configuration to flash and keep the current role. A reboot is required.'));
-			o.inputtitle = _('Save live config to flash');
+		if (saved == 'stock' && auto == '1' && detect == '1' && !reboot) {
+			o = s.taboption('general', form.Button, '_commit_all', _('Lock current role'),
+				_('Not needed to save settings: Save & Apply saves them, and Reboot node applies those that need a reboot. This keeps the role the node has now, portal or peer, so portal detection no longer changes it. Undo it with Revert saved config.'));
+			o.inputtitle = _('Lock this role');
 			o.inputstyle = 'action';
 			o.onclick = function() {
 				self.confirmCommitAll();
@@ -317,8 +329,9 @@ return view.extend({
 	confirmCommitAll: function() {
 		var self = this;
 
-		ui.showModal(_('Save live config to flash?'), [
-			E('p', _('This writes the live wireless, network, dhcp and firewall configuration to flash.')),
+		ui.showModal(_('Lock the current role?'), [
+			E('p', _('This is not how settings are saved. Save & Apply saves them, and Reboot node applies those that need a reboot.')),
+			E('p', _('Locking writes the live wireless, network, dhcp and firewall configuration to flash, including the current role.')),
 			E('p', _('After a reboot, this node keeps its current role. Portal detection will no longer switch the role automatically. To change role later, use Revert saved config first.')),
 			E('p', _('The wan port is left as a normal wan interface, not joined to the lan bridge. If you later plug an upstream router into wan, the portal check can still see it and this node will try to become a portal, and will start serving addresses on the lan.')),
 			E('p', _('A reboot is required for this to take effect.')),
@@ -330,7 +343,7 @@ return view.extend({
 					'click': ui.createHandlerFn(this, function() {
 						return self.runCommitAll();
 					})
-				}, _('Save to flash'))
+				}, _('Lock this role'))
 			])
 		]);
 	},
@@ -341,11 +354,11 @@ return view.extend({
 		return common.commitAll().then(function(res) {
 			if (!res || res.code != 0) {
 				ui.hideModal();
-				ui.addNotification(null, E('p', self.execMessage(res, _('Could not save the live config.'))), 'error');
+				ui.addNotification(null, E('p', self.execMessage(res, _('Could not lock the current role.'))), 'error');
 				return;
 			}
-			ui.showModal(_('Live config saved'), [
-				E('p', _('The live configuration is now on flash. Reboot the node for this to take effect. Until then, portal detection may still change the role.')),
+			ui.showModal(_('Role locked'), [
+				E('p', _('The current role is now on flash. Reboot the node for this to take effect. Until then, portal detection may still change the role.')),
 				E('div', { 'class': 'right' }, [
 					E('button', { 'class': 'btn', 'click': ui.hideModal }, _('Close')),
 					' ',
@@ -357,7 +370,7 @@ return view.extend({
 			]);
 		}, function(e) {
 			ui.hideModal();
-			ui.addNotification(null, E('p', _('Could not save the live config: %s').format(e)), 'error');
+			ui.addNotification(null, E('p', _('Could not lock the current role: %s').format(e)), 'error');
 		});
 	},
 
@@ -547,7 +560,7 @@ return view.extend({
 		var o;
 
 		m = new form.Map('mesh11sd', _('Mesh11sd'),
-			_('Settings of mesh11sd on this node. Save & Apply asks the running daemon to read its settings again, without a restart; each option says when a change takes effect. With auto config 1 and portal detect 0 or 1, a saved change also rebuilds the portal configuration.'));
+			_('Settings of mesh11sd on this node. Save & Apply asks the running daemon to read its settings again, without a restart; each option says when a change takes effect. With auto config 1, a saved change also rebuilds the committed configuration.'));
 
 		s = m.section(form.NamedSection, 'setup', 'mesh11sd', _('Settings'));
 		s.anonymous = true;
@@ -567,7 +580,7 @@ return view.extend({
 			_('0 off; 1 on, the portal configuration is committed and LuCI can be used; 2 on, everything is committed and the first role is kept.'),
 			[ [ '0', _('0 - off') ], [ '1', _('1 - on') ], [ '2', _('2 - on, commit all') ] ], '0', 'restart');
 
-		this.commitAllButtons(s, st, saved);
+		this.commitAllButtons(s, st, saved, reboot);
 
 		if (reboot) {
 			o = s.taboption('general', form.Button, '_reboot', _('Reboot node'),

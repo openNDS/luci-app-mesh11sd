@@ -55,15 +55,20 @@ Services > Mesh11sd has three tabs:
   starts the uncommitted auto config test (`ubus call mesh11sd auto_config_test`, as
   `mesh11sd auto_config test`), after a warning that the node's address changes and the page
   stops responding. A reboot undoes the test.
-  With auto config on, the General tab also offers "Save live config to flash" and "Revert saved
-  config". With auto config 1, mesh11sd commits its own portal configuration and keeps a copy
+  With auto config on, the General tab can also offer "Lock current role" and "Revert saved
+  config". Lock current role is not how settings are saved (that is Save & Apply, then Reboot node
+  when an option needs it). It is shown only with auto config 1 and portal detect 1, while the
+  flash configuration still matches mesh11sd's copies and no reboot is pending: it keeps the
+  node's current role, portal or peer, so portal detection no longer changes it. With portal
+  detect 0, 3, 4 or 5 the role is fixed and mesh11sd 8 already commits its configuration, and
+  auto config 2 locks the role by itself, so it is not shown there.
+  With auto config 1, mesh11sd commits its own configuration and keeps a copy
   of each file (`/etc/config/<pkg>_mesh11sd_portal`), so Revert is shown when the flash
   wireless, network, dhcp, firewall or system configuration differs from those copies, meaning
   something else has committed changes. If there are no portal copies, the comparison is with
   the stock copies mesh11sd made before it first ran (`/etc/config/<pkg>_mesh11sd_default`).
-  Revert is also shown when `mesh11sd.setup.commit_all` is 1. Save is shown when the files still
-  match. Each sits behind a confirm dialog. Save writes
-  the live wireless, network, dhcp and firewall configuration to flash
+  Revert is also shown when `mesh11sd.setup.commit_all` is 1. Each sits behind a confirm dialog.
+  Lock writes the live wireless, network, dhcp and firewall configuration to flash
   (`mesh11sd commit_all commit silent`); a reboot is then required, after which portal detection
   no longer switches the role. Revert restores the wireless, network, dhcp, firewall and system
   configuration from the stock copies (`mesh11sd restore_all restore`) and returns to dynamic
