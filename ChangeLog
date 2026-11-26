@@ -26,6 +26,6 @@ luci-app-mesh11sd (1.0.0beta)
   * Change - the saved-state helper also compares the system config, as restore_all restores it [bluewavenet]
   * Fix - Settings: do not write Mesh ID seed, Mesh key seed, or other text and password fields that the user did not edit, and turn off browser autocomplete on them, so a password manager cannot commit the LuCI user name and a saved password as auto_mesh_id and auto_mesh_key [bluewavenet]
   * Fix - Settings: Revert saved config was shown on every auto config node, because mesh11sd commits its own portal configuration; the saved-state helper now compares the flash config with the portal copies, and with the stock copies only when there are no portal copies [bluewavenet]
-  * Note - possible future version: commit the fixed-role configuration once (portal_detect 0, 3, 4, 5) so LuCI's own pages show the real state [bluewavenet]
+  * Change - Settings, General: "Save live config to flash" is now "Lock current role" (button "Lock this role"), with help that says Save & Apply and Reboot node save settings; it is shown only with auto config 1 and portal detect 1, and hidden while a reboot is pending, as fixed roles are already committed by mesh11sd 8 r81 and auto config 2 locks the role by itself [bluewavenet]
 
  -- Rob White <rob@blue-wave.net>  unreleased
