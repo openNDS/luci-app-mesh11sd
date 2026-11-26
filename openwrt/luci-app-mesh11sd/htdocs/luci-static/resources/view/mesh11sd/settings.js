@@ -258,9 +258,9 @@ return view.extend({
 	 * Save live config / Revert saved config. Hidden while auto_config is 0
 	 * (the mesh11sd CLI refuses both commands, and mesh11sd is not managing
 	 * the config). Revert is shown when the flash wireless, network, dhcp,
-	 * firewall or system config differs from mesh11sd's stock copies, or
-	 * commit_all is 1. Save is shown when the flash config still matches
-	 * those copies. If the helper does not answer, the saved commit_all flag
+	 * firewall or system config differs from mesh11sd's portal copies (or
+	 * its stock copies if there are no portal copies), or commit_all is 1.
+	 * Save is shown when the flash config still matches those copies. If the helper does not answer, the saved commit_all flag
 	 * is used, as in r9.
 	 */
 	commitAllButtons: function(s, st, saved) {

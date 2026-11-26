@@ -147,7 +147,8 @@ return baseclass.extend({
 
 	/*
 	 * Whether the flash wireless, network, dhcp, firewall or system config differs
-	 * from the stock copies mesh11sd made before it first ran, or commit_all is 1:
+	 * from mesh11sd's portal copies (or its stock copies if there are no portal
+	 * copies), or commit_all is 1:
 	 * "modified" or "stock". Empty if the helper does not answer.
 	 */
 	savedState: function() {

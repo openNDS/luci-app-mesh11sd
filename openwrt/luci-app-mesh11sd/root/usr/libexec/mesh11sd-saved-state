@@ -1,40 +1,52 @@
 #!/bin/sh
-# Whether the flash config still matches the stock copies mesh11sd made
-# before it first ran. Prints "modified" or "stock". Read only.
+# Whether the flash config has changes that Revert saved config would undo.
+# Prints "modified" or "stock". Read only.
+#
+# With auto_config 1, mesh11sd itself commits its portal configuration and
+# keeps a copy of each file as /etc/config/<pkg>_mesh11sd_portal. That is
+# the normal state, so compare the flash files with those copies: they
+# differ only if something else committed changes (for example a blanket
+# uci commit that wrote the peer settings to flash).
+#
+# With no portal copies (auto_config 2, or a node not yet set up), compare
+# with the stock copies mesh11sd made before it first ran,
+# /etc/config/<pkg>_mesh11sd_default.
+#
+# commit_all=1 always counts as modified.
 
-# Packages restore_all puts back from the
-# /etc/config/<pkg>_mesh11sd_default backups (wireless, dhcp, network,
-# firewall and system). mesh11sd's own config is kept, so it is left out.
+# Packages restore_all puts back. mesh11sd's own config is kept, so it is
+# left out.
 pkgs="wireless network dhcp firewall system"
 
 commit_all=$(uci -q get mesh11sd.setup.commit_all)
 [ -z "$commit_all" ] && commit_all=0
 
-have_default=0
-modified=0
+if [ "$commit_all" = 1 ]; then
+	echo modified
+	exit 0
+fi
 
+# Use the portal copies if there are any, otherwise the stock copies.
+suffix=_mesh11sd_default
+for f in $pkgs; do
+	if [ -f "/etc/config/${f}_mesh11sd_portal" ]; then
+		suffix=_mesh11sd_portal
+		break
+	fi
+done
+
+modified=0
 for f in $pkgs; do
 	cur=/etc/config/$f
-	def=/etc/config/${f}_mesh11sd_default
-	if [ -f "$def" ]; then
-		have_default=1
-		if [ ! -f "$cur" ] || ! cmp -s "$cur" "$def"; then
+	ref=/etc/config/$f$suffix
+	if [ -f "$ref" ]; then
+		if [ ! -f "$cur" ] || ! cmp -s "$cur" "$ref"; then
 			modified=1
 		fi
 	fi
 done
 
-# No stock copies to compare: same test as r9, the commit_all flag.
-if [ "$have_default" = 0 ]; then
-	if [ "$commit_all" = 1 ]; then
-		echo modified
-	else
-		echo stock
-	fi
-	exit 0
-fi
-
-if [ "$modified" = 1 ] || [ "$commit_all" = 1 ]; then
+if [ "$modified" = 1 ]; then
 	echo modified
 else
 	echo stock
